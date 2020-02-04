@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const fs = require('fs')
 const cookieParser = require('cookie-parser');
 const { URLSearchParams } = require('url');
+var mysql = require('mysql');
 const app = express();
 const port = 5000;
 
@@ -33,7 +34,7 @@ app.get('/api/request_token/callback', async(req, res) => {
     console.log(req.query.code);
     
     res.cookie('authentication_code', req.query.code, { expires: new Date(Date.now() + 9000000),  sameSite: true });
-    res.send('Made it to callback');
+    res.redirect('/api/request_token');
 });
 
 app.get('/api/request_token', async (req, res) => {
@@ -51,23 +52,15 @@ app.get('/api/request_token', async (req, res) => {
         method: 'POST',
         body: params,
         headers: {
-            Authorization: "Basic " + authorization_header,
-            ConentEncoding: 'application/x-www-form-urlencoded'
+            Authorization: 'Basic ' + authorization_header,
         }
     })
-    .then(res => res.text());
+    .then(res => res.json());
 
     // let json = await token_response.body
 
     console.log(token_response);
-    
+    res.send(token_response);
 });
-// app.get('/', async (req, res) => {
-//     let todos = await fetch('http://jsonplaceholder.typicode.com/todos/1');
-//     let json = await todos.json();
-//     console.log(json);
-//     res.send(json);
-    
-// })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
