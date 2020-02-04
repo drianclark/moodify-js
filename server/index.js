@@ -9,6 +9,13 @@ const port = 5000;
 
 app.use(cookieParser());
 
+const connection = mysql.createConnection({
+    host: 'db',
+    user: 'admin',
+    password: 'root',
+    database: 'db'
+});
+
 const authData = JSON.parse(fs.readFileSync('authentication.json'));
 
 console.log(`Client ID: ${ authData['client_id'] }, secret: ${ authData['client_secret'] }.`);
@@ -39,9 +46,6 @@ app.get('/api/request_token/callback', async(req, res) => {
 
 app.get('/api/request_token', async (req, res) => {
     const url = 'https://accounts.spotify.com/api/token'
-    console.log("Basic " + authorization_header);
-    console.log(req.cookies.authentication_code);
-    console.log(req.cookies);
     const params = new URLSearchParams()
     params.append('grant_type', 'authorization_code');
     params.append('code', req.cookies.authentication_code);
@@ -63,4 +67,14 @@ app.get('/api/request_token', async (req, res) => {
     res.send(token_response);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.get('/api/mysql_test', async (req, res) => {
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query("SELECT * FROM tracks", function (err, result, fields) {
+            if (err) throw err;
+            res.send(result)
+        });
+    });
+});
+
+app.listen(port, () => console.log(`App listening on port ${port}!`));

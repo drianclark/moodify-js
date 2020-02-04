@@ -15,12 +15,12 @@ services:
             # Password for root access
             MYSQL_ROOT_PASSWORD: 'root'
         volumes:
-            # - ./mysql-dump:/docker-entrypoint-initdb.d
+            - ./db-init:/docker-entrypoint-initdb.d
             - ./db:/var/lib/mysql
         ports:
-            - "3306:3306"
+            - '3306:3306'
         expose:
-            - "3306"
+            - '3306'
 
     backend:
         build: ./server
@@ -28,7 +28,7 @@ services:
             - ./server:/app
         command: npm run test
         ports:
-            - "5000:5000"
+            - '5000:5000'
         depends_on:
             - db
 
