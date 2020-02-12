@@ -38,8 +38,6 @@ app.get('/api/request_code', async(req, res) => {
 });
 
 app.get('/api/request_token/callback', async(req, res) => {
-    console.log(req.query.code);
-    
     res.cookie('authentication_code', req.query.code, { expires: new Date(Date.now() + 9000000),  sameSite: true });
     res.redirect('/api/request_token');
 });
@@ -56,15 +54,25 @@ app.get('/api/request_token', async (req, res) => {
         method: 'POST',
         body: params,
         headers: {
-            Authorization: 'Basic ' + authorization_header,
+            Authorization: 'Basic ' + authorization_header
         }
     })
     .then(res => res.json());
 
     // let json = await token_response.body
+    
+    var access_token = token_response.access_token;
+    var access_token_json = `{ "access_token": "${access_token}"}`;
 
-    console.log(token_response);
-    res.send(token_response);
+    fs.writeFile('access_token.json', access_token_json, 'utf8', function (err) {
+        if (err) {
+            console.log("An error occured writing JSON to file");
+            return console.log(err);
+        }
+    })
+    
+    console.log(access_token);
+    res.send(access_token);
 });
 
 app.get('/api/mysql_test', async (req, res) => {
@@ -75,6 +83,21 @@ app.get('/api/mysql_test', async (req, res) => {
             res.send(result)
         });
     });
+});
+
+app.get('/api/update_tracks', async (req, res) => {
+    const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+    console.log(access_token);
+    
+    let r = await fetch(url, {
+        headers: {
+            'Authorization': 'Bearer ' + access_token
+        }
+    });
+
+    let json = await r.json();
+    console.log(json.items);
+    res.send(json.items)
 });
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
