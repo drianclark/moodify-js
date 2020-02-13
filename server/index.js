@@ -17,6 +17,8 @@ const connection = mysql.createConnection({
 });
 
 const authData = JSON.parse(fs.readFileSync('authentication.json'));
+var access_token = JSON.parse(fs.readFileSync('tokens.json'))['access_token'];
+var refresh_token = JSON.parse(fs.readFileSync('tokens.json'))['refresh_token'];
 
 console.log(`Client ID: ${ authData['client_id'] }, secret: ${ authData['client_secret'] }.`);
 const authorization_header = Buffer.from(`${ authData['client_id'] }:${ authData['client_secret']}`).toString('base64');
@@ -58,13 +60,12 @@ app.get('/api/request_token', async (req, res) => {
         }
     })
     .then(res => res.json());
-
-    // let json = await token_response.body
     
     var access_token = token_response.access_token;
-    var access_token_json = `{ "access_token": "${access_token}"}`;
+    var refresh_token = token_response.refresh_token;
+    var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`
 
-    fs.writeFile('access_token.json', access_token_json, 'utf8', function (err) {
+    fs.writeFile('tokens.json', tokens_json, 'utf8', function (err) {
         if (err) {
             console.log("An error occured writing JSON to file");
             return console.log(err);
@@ -86,18 +87,85 @@ app.get('/api/mysql_test', async (req, res) => {
 });
 
 app.get('/api/update_tracks', async (req, res) => {
+    // console.log("Updating tracks with access token" + access_token);
     const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
-    console.log(access_token);
-    
-    let r = await fetch(url, {
+    // console.log(access_token);
+
+    var history; 
+    var tracksPlayed = [];
+    var spotifyIDs = [];   
+
+    while (true) {
+        try {
+            var r = await fetch(url, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            })
+            .then(async res => {
+                if (res.status == 401) throw "401 Error";
+                else history = await res.json();
+                
+            });
+        }
+        catch(e){
+            if (e == "401 Error") {
+                console.log(e);
+                refresh_access_token();
+                continue;
+            } 
+        }
+        console.log("done with while");
+        
+        break;
+    };
+
+    console.log(history.items);
+    // res.send(json.items)
+
+    history.items.forEach(item => {
+        let trackObject = {
+            'id' : item.track.id,
+            'title' : item.track.name,
+            'date' : item.played_at
+        }
+
+        tracksPlayed.push(trackObject);
+        spotifyIDs.push(item.track.id);
+    });
+
+    let r2 = await fetch(`https://api.spotify.com/v1/audio-features?ids=${spotifyIDs.join(',')}`, {
         headers: {
             'Authorization': 'Bearer ' + access_token
         }
     });
+    
+    let audio_features = await r2.json();
 
-    let json = await r.json();
-    console.log(json.items);
-    res.send(json.items)
+    res.send(audio_features)
 });
+
+async function refresh_access_token(){
+    console.log("in refresh_access_token")
+    const params = new URLSearchParams()
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', refresh_token);
+
+    let r = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            Authorization: 'Basic ' + authorization_header
+        },
+        body: params
+    })
+    .catch(err => {
+        console.log("error in refresh access token")
+    });
+    
+    let json = await r.json();
+    access_token = json.access_token;
+    console.log("changed token to " + json.access_token)
+    return json.access_token;
+}
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
