@@ -1,0 +1,17 @@
+{
+  "name": "db_update_service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "2.0.2"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
