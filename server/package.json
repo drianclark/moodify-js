@@ -13,9 +13,10 @@
     "nodemon": "^2.0.2"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.4",
-    "moment": "^2.24.0",
-    "mysql": "^2.18.1",
-    "node-fetch": "^2.6.0"
+    "cookie-parser": "1.4.4",
+    "moment": "2.24.0",
+    "mysql": "2.18.1",
+    "node-fetch": "2.6.0",
+    "sqlite3": "^4.1.1"
   }
 }
