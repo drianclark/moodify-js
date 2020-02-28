@@ -26,7 +26,7 @@ services:
         build: ./server
         volumes:
             - ./server:/app
-        command: npm run test
+        command: npm run dev
         ports:
             - '5000:5000'
         # depends_on:

@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test": "export NODE_ENV=test && jest"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "express": "^4.17.1",
+    "jest": "25.1.0",
     "nodemon": "^2.0.2"
   },
   "dependencies": {

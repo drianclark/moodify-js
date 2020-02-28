@@ -8,12 +8,15 @@ const sqlite3 = require("sqlite3");
 var moment = require("moment");
 
 moment().format();
+
+const dbName = (process.env.NODE_ENV === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
+
 const app = express();
 const port = 5000;
 
 app.use(cookieParser());
 
-const dbPath = path.resolve(__dirname, "./sqlite-db/tracks.db");
+const dbPath = path.resolve(__dirname, dbName);
 const db = new sqlite3.Database(dbPath, err => {
   if (err) {
     console.log(dbPath);
@@ -157,7 +160,7 @@ app.get("/api/update_tracks", async (req, res) => {
     });
   }
 
-  console.log("sending new_tracks");
+  console.log("added new_tracks");
   res.send(new_tracks);
 });
 
