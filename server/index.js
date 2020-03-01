@@ -126,7 +126,7 @@ app.get("/api/update_tracks", async (req, res) => {
             placeholders;
 
         let flattenedTracks = new_tracks.flat();
-        console.log(flattenedTracks);
+        // console.log(flattenedTracks);
 
         db.serialize(function() {
             db.run(sql, flattenedTracks, err => {
@@ -271,3 +271,4 @@ process.on('SIGINT', () => {
 // app.listen(port, () => console.log(`App listening on port ${port}!`));
 exports.main = app;
 exports.get_latest_db_date = get_latest_db_date;
+exports.get_recently_played_tracks = get_recently_played_tracks;

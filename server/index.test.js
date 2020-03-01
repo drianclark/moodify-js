@@ -29,8 +29,6 @@ beforeAll(() => {
             });
         });
 
-        console.log("deleted tracks at " + moment());
-
         // Insert two tracks
         const placeholders = [0, 1]
             .map(() => "(?, ?, ?, ?, ?, ?, ?, ?, ?)")
@@ -88,10 +86,42 @@ afterAll(() => {
     });
 });
 
-test("get latest db date working", async () => {
-    console.log("running test at " + moment());
+test('get latest db date working', async () => {
     const expectedLatestDBDate = moment("2020-02-13 13:47:15.000");
     const latestDBDate = await app.get_latest_db_date();
 
     expect(expectedLatestDBDate).toEqual(latestDBDate);
+});
+
+test('tracks update working', async () => {
+    // we get the recently played tracks from the spotify API
+    const recentTracks = await app.get_recently_played_tracks();
+
+    // we trigger an update of the database
+    await request.get('/api/update_tracks');
+
+    // we check whether all of the tracks we recently played
+    // were all added to the database 
+    const query = `SELECT * FROM tracks ORDER BY play_date DESC LIMIT 50;`
+    var dbTracks = [];
+
+    db.serialize(() => {
+        db.all(query, [], (err, rows) => {
+            if (err) {
+                console.error(err.message);
+            }
+            else {
+                rows.forEach(row => {
+                    let trackArray = Object.values(row).slice(1);
+                    let valence = trackArray[2];
+                    let date = trackArray[3];
+                    // swapping date and valence order in the array
+                    trackArray[2] = date;
+                    trackArray[3] = valence;
+                    dbTracks.push(trackArray);
+                });
+                expect(recentTracks).toEqual(dbTracks);
+            }
+        });
+    });
 });
