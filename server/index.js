@@ -13,6 +13,7 @@ const app = express();
 const port = 5000;
 
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
+console.log(dbName);
 
 app.use(cookieParser());
 
@@ -171,6 +172,8 @@ async function refresh_access_token() {
 
 function get_latest_db_date() {
     return new Promise(function(resolve, reject) {
+
+        console.log("getting latest db date with db " + dbPath);
         const query =
             "SELECT play_date date FROM tracks ORDER BY play_date DESC LIMIT 1;";
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon start.js",
-    "test": "export NODE_ENV=test && jest --watch"
+    "test": "export NODE_ENV=test && jest"
   },
   "author": "",
   "license": "ISC",
