@@ -13,4 +13,4 @@ test:
   script:
     - cd server
     - npm install
-    - npm run test
+    - npx jest
