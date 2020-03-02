@@ -12,12 +12,7 @@ cache:
 test:
   script:
     - cd server
-<<<<<<< HEAD
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}"
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}" > authentication.json
-=======
-    - echo "{\"client_id\"{{":"}} \"$CLIENT_ID\", \"client_secret\"{{":"}} \"$CLIENT_SECRET\"}"
-    - echo "{\"client_id\"{{":"}} \"$CLIENT_ID\", \"client_secret\"{{":"}} \"$CLIENT_SECRET\"}" > authentication.json
->>>>>>> b2b86c381ecec20ad12e697911a4d771f1a2acf9
     - npm install
     - npx jest
