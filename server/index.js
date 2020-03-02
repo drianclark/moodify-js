@@ -15,6 +15,8 @@ const port = 5000;
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
+sqlite3.verbose();
+
 app.use(cookieParser());
 
 const dbPath = path.resolve(__dirname, dbName);
@@ -85,7 +87,7 @@ app.get("/api/request_token", async (req, res) => {
     var refresh_token = token_response.refresh_token;
     var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
 
-    fs.writeFile("tokens.json", tokens_json, "utf8", function(err) {
+    fs.writeFile("tokens.json", tokens_json, "utf8", function (err) {
         if (err) {
             console.log("An error occured writing JSON to file");
             return console.log(err);
@@ -116,7 +118,7 @@ app.get("/api/update_tracks", async (req, res) => {
     let new_tracks = tracks.slice(0, index);
 
     if (index == 0) console.log("No new tracks to add");
-    
+
     else {
         console.log("pushing to db");
 
@@ -130,7 +132,7 @@ app.get("/api/update_tracks", async (req, res) => {
         let flattenedTracks = new_tracks.flat();
         // console.log(flattenedTracks);
 
-        db.serialize(function() {
+        db.serialize(function () {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
                     console.error(err.message);
@@ -141,6 +143,20 @@ app.get("/api/update_tracks", async (req, res) => {
 
     console.log("added new_tracks");
     res.send(new_tracks);
+});
+
+app.get("/api/get_mean_valence_by_days", async (req, res) => {
+    let q = "SELECT avg(valence) AS avg_valence FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
+
+    db.get(q, [req.query.days],
+        (err, row) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            res.send(row["avg_valence"].toString());
+        });
 });
 
 async function refresh_access_token() {
@@ -163,7 +179,7 @@ async function refresh_access_token() {
     console.log("changed token to " + json.access_token);
 
     var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
-    fs.writeFile("tokens.json", tokens_json, "utf8", function(err) {
+    fs.writeFile("tokens.json", tokens_json, "utf8", function (err) {
         if (err) {
             console.log("An error occured writing JSON to file");
             return console.log(err);
@@ -172,12 +188,12 @@ async function refresh_access_token() {
 }
 
 function get_latest_db_date() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
 
         const query =
             "SELECT play_date date FROM tracks ORDER BY play_date DESC LIMIT 1;";
 
-        db.serialize(function() {
+        db.serialize(function () {
             db.get(query, [], (err, row) => {
                 if (err) {
                     console.error(err.message);
@@ -209,7 +225,7 @@ async function get_recently_played_tracks() {
                     headers: {
                         Authorization: "Bearer " + access_token
                     }
-                }).then(async function(res) {
+                }).then(async function (res) {
                     if (res.status == 401) throw "401 Error";
                     else history = await res.json();
                 });
@@ -264,8 +280,8 @@ async function get_recently_played_tracks() {
 }
 
 process.on('SIGINT', () => {
-  db.close();
-  process.exit();
+    db.close();
+    process.exit();
 });
 
 // app.listen(port, () => console.log(`App listening on port ${port}!`));
