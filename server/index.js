@@ -18,6 +18,11 @@ console.log(dbName);
 sqlite3.verbose();
 
 app.use(cookieParser());
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 const dbPath = path.resolve(__dirname, dbName);
 const db = new sqlite3.Database(dbPath, err => {
@@ -160,7 +165,7 @@ app.get("/api/get_mean_valence_by_days", async (req, res) => {
 });
 
 app.get("/api/get_tracks_by_days", async (req, res) => {
-    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days') ORDER BY play_date ASC;";
 
     db.all(q, [req.query.days],
         (err, rows) => {
@@ -174,7 +179,7 @@ app.get("/api/get_tracks_by_days", async (req, res) => {
 });
 
 app.get("/api/get_tracks_by_date", async (req, res) => {
-    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > date(?) AND play_date < date(?);";
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > date(?) AND play_date < date(?) ORDER BY play_date ASC;";
 
     db.all(q, [req.query.startDate, req.query.endDate],
         (err, rows) => {
