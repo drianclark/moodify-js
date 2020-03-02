@@ -173,6 +173,20 @@ app.get("/api/get_tracks_by_days", async (req, res) => {
         });
 });
 
+app.get("/api/get_tracks_by_date", async (req, res) => {
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > date(?) AND play_date < date(?);";
+
+    db.all(q, [req.query.startDate, req.query.endDate],
+        (err, rows) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            res.send(rows);
+        });
+});
+
 
 async function refresh_access_token() {
     const params = new URLSearchParams();
