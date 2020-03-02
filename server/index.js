@@ -115,7 +115,9 @@ app.get("/api/update_tracks", async (req, res) => {
 
     let new_tracks = tracks.slice(0, index);
 
-    if (index > 0) {
+    if (index == 0) console.log("No new tracks to add");
+    
+    else {
         console.log("pushing to db");
 
         let placeholders = new_tracks
@@ -134,7 +136,6 @@ app.get("/api/update_tracks", async (req, res) => {
                     console.error(err.message);
                 }
             });
-            db.close();
         });
     }
 
@@ -173,7 +174,6 @@ async function refresh_access_token() {
 function get_latest_db_date() {
     return new Promise(function(resolve, reject) {
 
-        console.log("getting latest db date with db " + dbPath);
         const query =
             "SELECT play_date date FROM tracks ORDER BY play_date DESC LIMIT 1;";
 
