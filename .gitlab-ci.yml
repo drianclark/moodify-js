@@ -1,0 +1,16 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:12.14.1-stretch
+
+# This folder is cached between builds
+# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+cache:
+  paths:
+    - server/node_modules/
+
+test:
+  script:
+    - cd server
+    - npm install
+    - npm run test

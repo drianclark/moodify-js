@@ -14,7 +14,6 @@ async function requestUpdate() {
       var r = await timeout(3000, fetch(url));
       var json = await r.json();
       break;
-      console.log(json);    
     } 
     catch (error) {
       console.log(error);
