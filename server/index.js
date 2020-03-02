@@ -16,6 +16,11 @@ const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-d
 console.log(dbName);
 
 app.use(cookieParser());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 const dbPath = path.resolve(__dirname, dbName);
 const db = new sqlite3.Database(dbPath, err => {
