@@ -155,21 +155,21 @@ app.get("/api/get_mean_valence_by_days", async (req, res) => {
                 return;
             }
 
-            res.send(row["avg_valence"].toString());
+            row["avg_valence"] == null ? res.status(204).send() : res.send(row["avg_valence"].toString());
         });
 });
 
 app.get("/api/get_tracks_by_days", async (req, res) => {
     let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
 
-    db.get(q, [req.query.days],
-        (err, row) => {
+    db.all(q, [req.query.days],
+        (err, rows) => {
             if (err) {
                 res.status(500).send(err);
                 return;
             }
 
-            res.send(row);
+            rows.length == 0 ? res.status(204).send() : res.send(rows);
         });
 });
 
@@ -183,7 +183,7 @@ app.get("/api/get_tracks_by_date", async (req, res) => {
                 return;
             }
 
-            res.send(rows);
+            rows.length == 0 ? res.status(204).send() : res.send(rows);
         });
 });
 
