@@ -3,7 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=node
 
 unused
-api_design
+*/tokens.json
 
 ### Node ###
 # Logs
