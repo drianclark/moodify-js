@@ -160,7 +160,7 @@ app.get("/api/get_mean_valence_by_days", async (req, res) => {
 });
 
 app.get("/api/get_tracks_by_days", async (req, res) => {
-    let q = "SELECT play_date AS date, title, valence FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
 
     db.get(q, [req.query.days],
         (err, row) => {
