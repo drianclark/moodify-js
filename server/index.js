@@ -159,6 +159,21 @@ app.get("/api/get_mean_valence_by_days", async (req, res) => {
         });
 });
 
+app.get("/api/get_tracks_by_days", async (req, res) => {
+    let q = "SELECT play_date AS date, title, valence FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
+
+    db.get(q, [req.query.days],
+        (err, row) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            res.send(row);
+        });
+});
+
+
 async function refresh_access_token() {
     const params = new URLSearchParams();
     params.append("grant_type", "refresh_token");
