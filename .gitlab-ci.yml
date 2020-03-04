@@ -34,7 +34,7 @@ test:
     - npx jest
 
 deploy:
-  stage: deploy-staging
+  stage: deploy
   image: 
     name: cloud-sdk:283.0.0-slim
   script:
