@@ -29,6 +29,7 @@ test:
 deploy:
   stage: deploy
   script:
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh spotifymoodtracker@35.230.144.118 "cd web-tech && docker-compose stop && git checkout staging && git pull origin staging && exit"
     - ssh spotifymoodtracker@35.230.144.118 "cd web-tech/server && npm i && cd ../db_update_service && npm i && exit"
     - ssh spotifymoodtracker@35.230.144.118 "cd web-tech && docker-compose build --no-cache && docker-compose -f docker-compose-staging.yml up && exit"
