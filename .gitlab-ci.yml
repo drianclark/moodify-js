@@ -2,7 +2,7 @@
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
 
-image: node:12.14.1-stretch
+image: node:12.14.1-alpine
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -36,7 +36,7 @@ test:
 deploy:
   stage: deploy
   image: 
-    name: google/cloud-sdk:283.0.0-slim
+    name: google/cloud-sdk:283.0.0-alpine
   script:
     - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
     - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
