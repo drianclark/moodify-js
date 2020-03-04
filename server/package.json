@@ -1,9 +1,10 @@
 {
-  "name": "express-test",
+  "name": "web-tech",
   "version": "1.0.0",
   "description": "",
   "main": "start.js",
   "scripts": {
+    "start": "node start.js",
     "dev": "nodemon start.js",
     "test": "export NODE_ENV=test && jest"
   },
