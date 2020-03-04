@@ -39,6 +39,7 @@ deploy:
     name: google/cloud-sdk:283.0.0-alpine
   script:
     - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+    - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}" > $CI_PROJECT_DIR/server/authentication.json
     - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
     - gcloud --quiet --project $PROJECT_ID app deploy $CI_PROJECT_DIR/server/staging-app.yaml
   only: 
