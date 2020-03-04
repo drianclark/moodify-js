@@ -32,6 +32,3 @@ deploy:
     - ssh spotifymoodtracker@35.230.144.118 "cd web-tech && docker-compose stop && git checkout staging && git pull origin staging && docker-compose build --no-cache && docker-compose -f docker-compose-staging.yml up && exit"
   only: 
     - staging
-
-after_script:
-  - rm /tmp/$CI_PIPELINE_ID.json  
