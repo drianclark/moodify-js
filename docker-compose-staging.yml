@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+
+    backend:
+        build: ./server
+        command: npm run dev
+        ports:
+            - '5000:5000'
+
+    db_update_service:
+        build: ./db_update_service
+        command: npm run dev
+        depends_on:
+          - backend

@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm i --quiet
+RUN npm install
 
 # copy everything inside /server into /app
 COPY . .
