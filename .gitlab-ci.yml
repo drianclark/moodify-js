@@ -36,7 +36,7 @@ test:
 deploy:
   stage: deploy
   image: 
-    name: cloud-sdk:283.0.0-slim
+    name: google/cloud-sdk:283.0.0-slim
   script:
     - echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
     - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
