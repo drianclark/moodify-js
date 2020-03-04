@@ -6,4 +6,5 @@ COPY package.json .
 
 RUN npm i --quiet
 
+# copy everything inside /server into /app
 COPY . .

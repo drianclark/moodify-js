@@ -14,6 +14,6 @@ services:
         build: ./db_update_service
         volumes:
           - ./db_update_service:/app
-        command: npm run test
+        command: npm run dev
         depends_on:
           - backend
