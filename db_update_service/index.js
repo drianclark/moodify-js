@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
-const url = 'http://backend:5000/api/update_tracks'
+const port = process.env.DEBUG == 0 ? 80 : 5000;
+
+const url = `http://backend:${port}/api/update_tracks`
 
 const msToWaitBeforeUpdate = 300000;
 
