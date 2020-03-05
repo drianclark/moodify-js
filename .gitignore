@@ -5,6 +5,7 @@
 unused
 api_design
 */tracks.db
+server/tokens.json
 ### Node ###
 # Logs
 logs
