@@ -20,7 +20,7 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+});
 
 const dbPath = path.resolve(__dirname, dbName);
 const db = new sqlite3.Database(dbPath, err => {
@@ -34,8 +34,8 @@ const db = new sqlite3.Database(dbPath, err => {
 const db_time_format = "%Y-%m-%d %H:%M:%S";
 
 const authData = JSON.parse(fs.readFileSync("authentication.json"));
-var access_token = JSON.parse(fs.readFileSync("tokens.json"))["access_token"];
-var refresh_token = JSON.parse(fs.readFileSync("tokens.json"))["refresh_token"];
+var access_token;
+var refresh_token;
 
 console.log(
     `Client ID: ${authData["client_id"]}, secret: ${authData["client_secret"]}.`
@@ -57,7 +57,7 @@ app.get("/api/request_code", async (req, res) => {
     let code = await fetch("https://accounts.spotify.com/authorize?" + params);
     let response = code.url;
 
-    res.redirect(response);
+    return res.redirect(response);
 });
 
 app.get("/api/request_token/callback", async (req, res) => {
@@ -65,7 +65,7 @@ app.get("/api/request_token/callback", async (req, res) => {
         expires: new Date(Date.now() + 9000000),
         sameSite: true
     });
-    res.redirect("/api/request_token");
+    return res.redirect("/api/request_token");
 });
 
 app.get("/api/request_token", async (req, res) => {
@@ -86,22 +86,17 @@ app.get("/api/request_token", async (req, res) => {
         }
     }).then(res => res.json());
 
-    var access_token = token_response.access_token;
-    var refresh_token = token_response.refresh_token;
-    var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
+    access_token = token_response.access_token;
+    refresh_token = token_response.refresh_token;
 
-    fs.writeFile("tokens.json", tokens_json, "utf8", function(err) {
-        if (err) {
-            console.log("An error occured writing JSON to file");
-            return console.log(err);
-        }
-    });
-
-    console.log(access_token);
-    res.send(access_token);
+    return res.redirect('/api/update_tracks');
 });
 
 app.get("/api/update_tracks", async (req, res) => {
+    if (refresh_token == undefined) {
+        return res.redirect('/api/request_code');
+    }
+
     console.log("retrieving latest db date");
     var latest_play_date = await get_latest_db_date();
     console.log("got latest db date");
@@ -164,16 +159,9 @@ async function refresh_access_token() {
     });
 
     let json = await r.json();
+    console.log(json);
     access_token = json.access_token;
     console.log("changed token to " + json.access_token);
-
-    var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
-    fs.writeFile("tokens.json", tokens_json, "utf8", function(err) {
-        if (err) {
-            console.log("An error occured writing JSON to file");
-            return console.log(err);
-        }
-    });
 }
 
 function get_latest_db_date() {
