@@ -12,7 +12,7 @@ moment().format();
 const app = express();
 
 const port = process.env.PORT || 5000;
-const APP_URL = process.env.URL || 'http://localhost:5000';
+const APP_URL = process.env.URL || `http://localhost:${port}`;
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
@@ -60,14 +60,12 @@ app.get("/api/request_code", async (req, res) => {
     const params = new URLSearchParams({
         client_id: authData["client_id"],
         response_type: "code",
-        redirect_uri: `${APP_URL}/api/request_token/callback`,
+        redirect_uri: `${url}/api/request_token/callback`,
         scope: "user-read-recently-played"
     });
 
     let code = await fetch("https://accounts.spotify.com/authorize?" + params);
     let response = code.url;
-
-    console.log("redirect uri is " + `${APP_URL}/api/request_token/callback`);
 
     console.log("redirecting from request code");
     return res.redirect(response);
