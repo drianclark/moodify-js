@@ -10,7 +10,7 @@ var moment = require("moment");
 moment().format();
 
 const app = express();
-const port = 5000;
+const port = process.env.DEBUG == 0 ? 80 : 5000;
 
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
@@ -47,35 +47,40 @@ const authorization_header = Buffer.from(
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/api/request_code", async (req, res) => {
+    console.log("in request_code");
     const params = new URLSearchParams({
         client_id: authData["client_id"],
         response_type: "code",
-        redirect_uri: "http://localhost:5000/api/request_token/callback",
+        redirect_uri: `http://localhost:${port}/api/request_token/callback`,
         scope: "user-read-recently-played"
     });
 
     let code = await fetch("https://accounts.spotify.com/authorize?" + params);
     let response = code.url;
 
+    console.log("redirecting from request code");
     return res.redirect(response);
 });
 
 app.get("/api/request_token/callback", async (req, res) => {
+    console.log("in callback")
     res.cookie("authentication_code", req.query.code, {
         expires: new Date(Date.now() + 9000000),
         sameSite: true
     });
+    console.log("redirecting from callback");
     return res.redirect("/api/request_token");
 });
 
 app.get("/api/request_token", async (req, res) => {
+    console.log("in request token");
     const url = "https://accounts.spotify.com/api/token";
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");
     params.append("code", req.cookies.authentication_code);
     params.append(
         "redirect_uri",
-        "http://localhost:5000/api/request_token/callback"
+        `http://localhost:${port}/api/request_token/callback`
     );
 
     let token_response = await fetch(url, {
@@ -89,14 +94,28 @@ app.get("/api/request_token", async (req, res) => {
     access_token = token_response.access_token;
     refresh_token = token_response.refresh_token;
 
-    return res.redirect('/api/update_tracks');
+    console.log("updated refresh token via redirect to " + refresh_token);
+    if (req.cookies.redirect_to == 'update_tracks'){
+        res.clearCookie('redirect_to');
+        return res.redirect('/api/update_tracks');
+    }
+    return res.send(access_token);
 });
 
 app.get("/api/update_tracks", async (req, res) => {
     if (refresh_token == undefined) {
+        res.cookie('redirect_to', 'update_tracks', {
+            expires: new Date(Date.now() + 9000000),
+            sameSite: true
+        });
+
+        console.log("undefined refresh token ");
+        console.log("redirecting...");
+
         return res.redirect('/api/request_code');
     }
 
+    console.log("in update tracks with refresh token " + refresh_token);
     console.log("retrieving latest db date");
     var latest_play_date = await get_latest_db_date();
     console.log("got latest db date");
@@ -133,7 +152,7 @@ app.get("/api/update_tracks", async (req, res) => {
         db.serialize(function() {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
-                    console.error(err.message);
+                    // console.error(err.message);
                 }
             });
         });
@@ -161,6 +180,7 @@ async function refresh_access_token() {
     let json = await r.json();
     console.log(json);
     access_token = json.access_token;
+    
     console.log("changed token to " + json.access_token);
 }
 
@@ -208,7 +228,6 @@ async function get_recently_played_tracks() {
                 });
             } catch (e) {
                 if (e == "401 Error") {
-                    console.log(e);
                     refresh_access_token();
                     continue;
                 }
