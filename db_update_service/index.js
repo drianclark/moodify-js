@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 
+const port = process.env.PORT || 5000;
 const url = `http://backend:${port}/api/update_tracks`
 
 const msToWaitBeforeUpdate = 300000;
@@ -13,6 +14,7 @@ async function requestUpdate() {
     try {
       console.log("sent get")
       var r = await timeout(3000, fetch(url));
+      // console.log(r);
       var json = await r.json();
       break;
     } 

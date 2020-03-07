@@ -1,4 +1,9 @@
 const app = require('./index.js');
-const port = process.env.PORT;
+const fetch = require('node-fetch');
 
-app.main.listen(port);
+const port = process.env.PORT || 5000;
+const url = process.env.URL || 'http://localhost:5000';
+
+app.main.listen(port, () => {
+    console.log("App listening on port " + port);
+});

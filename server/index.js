@@ -11,7 +11,8 @@ moment().format();
 
 const app = express();
 
-const url = process.env.URL;
+const port = process.env.PORT || 5000;
+const APP_URL = process.env.URL || 'http://localhost:5000';
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
@@ -34,12 +35,20 @@ const db = new sqlite3.Database(dbPath, err => {
 const db_time_format = "%Y-%m-%d %H:%M:%S";
 
 const authData = JSON.parse(fs.readFileSync("authentication.json"));
-var access_token;
-var refresh_token;
+
+try {
+    var access_token = JSON.parse(fs.readFileSync("tokens.json"))["access_token"];
+    var refresh_token = JSON.parse(fs.readFileSync("tokens.json"))["refresh_token"];
+} catch (err) {
+    console.log("No tokens found. Create tokens first by visiting /api/request_code")};
+
 
 console.log(
     `Client ID: ${authData["client_id"]}, secret: ${authData["client_secret"]}.`
 );
+console.log(`Port: ${port}`);
+console.log(`URL: ${APP_URL}`);
+
 const authorization_header = Buffer.from(
     `${authData["client_id"]}:${authData["client_secret"]}`
 ).toString("base64");
@@ -51,12 +60,14 @@ app.get("/api/request_code", async (req, res) => {
     const params = new URLSearchParams({
         client_id: authData["client_id"],
         response_type: "code",
-        redirect_uri: `${url}/api/request_token/callback`,
+        redirect_uri: `${APP_URL}/api/request_token/callback`,
         scope: "user-read-recently-played"
     });
 
     let code = await fetch("https://accounts.spotify.com/authorize?" + params);
     let response = code.url;
+
+    console.log("redirect uri is " + `${APP_URL}/api/request_token/callback`);
 
     console.log("redirecting from request code");
     return res.redirect(response);
@@ -80,8 +91,10 @@ app.get("/api/request_token", async (req, res) => {
     params.append("code", req.cookies.authentication_code);
     params.append(
         "redirect_uri",
-        `${url}/api/request_token/callback`
+        `${APP_URL}/api/request_token/callback`
     );
+    
+    console.log("redirect uri in request_token is " + `${APP_URL}/api/request_token/callback`);
 
     let token_response = await fetch(url, {
         method: "POST",
@@ -91,8 +104,18 @@ app.get("/api/request_token", async (req, res) => {
         }
     }).then(res => res.json());
 
+    console.log(token_response);
+
     access_token = token_response.access_token;
     refresh_token = token_response.refresh_token;
+
+    var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
+    fs.writeFile("tokens.json", tokens_json, "utf8", function (err) {
+        if (err) {
+            console.log("An error occured writing JSON to file");
+            return console.log(err);
+        }
+    });
 
     console.log("updated refresh token via redirect to " + refresh_token);
     if (req.cookies.redirect_to == 'update_tracks'){
