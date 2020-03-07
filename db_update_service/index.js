@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const port = process.env.DEBUG == 0 ? 80 : 5000;
 
 const url = `http://backend:${port}/api/update_tracks`
 

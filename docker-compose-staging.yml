@@ -6,14 +6,18 @@ services:
         build: ./server
         command: npm run start
         environment: 
-            - DEBUG=0
+          - NODE_ENV='staging'
+          - URL='http://35.230.144.118'
+          - PORT='80'
         ports:
-            - '80:80'
+          - '80:80'
 
     db_update_service:
         build: ./db_update_service
         command: npm run start
         environment: 
-            - DEBUG=0
+          - NODE_ENV='staging'
+          - URL='http://35.230.144.118'
+          - PORT='80'
         depends_on:
           - backend

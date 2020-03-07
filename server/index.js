@@ -10,8 +10,8 @@ var moment = require("moment");
 moment().format();
 
 const app = express();
-const port = process.env.DEBUG == 0 ? 80 : 5000;
 
+const url = process.env.URL;
 const dbName = (app.get('env') === 'test') ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
@@ -51,7 +51,7 @@ app.get("/api/request_code", async (req, res) => {
     const params = new URLSearchParams({
         client_id: authData["client_id"],
         response_type: "code",
-        redirect_uri: `http://localhost:${port}/api/request_token/callback`,
+        redirect_uri: `${url}/api/request_token/callback`,
         scope: "user-read-recently-played"
     });
 
@@ -80,7 +80,7 @@ app.get("/api/request_token", async (req, res) => {
     params.append("code", req.cookies.authentication_code);
     params.append(
         "redirect_uri",
-        `http://localhost:${port}/api/request_token/callback`
+        `${url}/api/request_token/callback`
     );
 
     let token_response = await fetch(url, {
@@ -180,7 +180,7 @@ async function refresh_access_token() {
     let json = await r.json();
     console.log(json);
     access_token = json.access_token;
-    
+
     console.log("changed token to " + json.access_token);
 }
 
