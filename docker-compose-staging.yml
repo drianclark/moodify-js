@@ -9,6 +9,8 @@ services:
           - NODE_ENV=staging
           - URL=http://35.230.144.118
           - PORT=80
+        volumes:
+          - ./server/sqlite-db:/server/sqlite-db
         ports:
           - '80:80'
 

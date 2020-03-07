@@ -1,6 +1,6 @@
 FROM node:12.14.1-stretch
 
-WORKDIR /app
+WORKDIR /db_update_service
 
 COPY package.json .
 

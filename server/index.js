@@ -177,9 +177,11 @@ app.get("/api/update_tracks", async (req, res) => {
                 }
             });
         });
+        
+        console.log("added new_tracks");
     }
 
-    console.log("added new_tracks");
+   
     res.send(new_tracks);
 });
 
