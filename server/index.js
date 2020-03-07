@@ -173,7 +173,7 @@ app.get("/api/update_tracks", async (req, res) => {
         db.serialize(function() {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
-                    // console.error(err.message);
+                    console.error(err.message);
                 }
             });
         });
