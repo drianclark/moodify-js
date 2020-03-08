@@ -93,40 +93,39 @@ test('get latest db date working', async () => {
     expect(expectedLatestDBDate).toEqual(latestDBDate);
 });
 
-// test('tracks update working', async () => {
-//     // we trigger an update of the database
+test('tracks update working', async () => {
+    // we trigger an update of the database
 
-//     // problem with callback from spotify bc port set to 5000 while supertest
-//     // uses ephemeral ports
-//     const response = await request.get('http://localhost:5000/api/update_tracks');
-//     console.log(response);
+    // problem with callback from spotify bc port set to 5000 while supertest
+    // uses ephemeral ports
+    const response = await request.get('/api/update_tracks');
     
-//     console.log("done with db update");
-//     // we get the recently played tracks from the spotify API
-//     const recentTracks = await app.get_recently_played_tracks();
+    console.log("done with db update");
+    // we get the recently played tracks from the spotify API
+    const recentTracks = await app.get_recently_played_tracks();
 
-//     // we check whether all of the tracks we recently played
-//     // were all added to the database 
-//     const query = `SELECT * FROM tracks ORDER BY play_date DESC LIMIT 50;`
-//     var dbTracks = [];
+    // we check whether all of the tracks we recently played
+    // were all added to the database 
+    const query = `SELECT * FROM tracks ORDER BY play_date DESC LIMIT 50;`
+    var dbTracks = [];
 
-//     db.serialize(() => {
-//         db.all(query, [], (err, rows) => {
-//             if (err) {
-//                 console.error(err.message);
-//             }
-//             else {
-//                 rows.forEach(row => {
-//                     let trackArray = Object.values(row).slice(1);
-//                     let valence = trackArray[2];
-//                     let date = trackArray[3];
-//                     // swapping date and valence order in the array
-//                     trackArray[2] = date;
-//                     trackArray[3] = valence;
-//                     dbTracks.push(trackArray);
-//                 });
-//                 expect(recentTracks).toEqual(dbTracks);
-//             }
-//         });
-//     });
-// });
+    db.serialize(() => {
+        db.all(query, [], (err, rows) => {
+            if (err) {
+                console.error(err.message);
+            }
+            else {
+                rows.forEach(row => {
+                    let trackArray = Object.values(row).slice(1);
+                    let valence = trackArray[2];
+                    let date = trackArray[3];
+                    // swapping date and valence order in the array
+                    trackArray[2] = date;
+                    trackArray[3] = valence;
+                    dbTracks.push(trackArray);
+                });
+                expect(recentTracks).toEqual(dbTracks);
+            }
+        });
+    });
+});

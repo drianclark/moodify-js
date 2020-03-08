@@ -60,7 +60,7 @@ app.get("/api/request_code", async (req, res) => {
     const params = new URLSearchParams({
         client_id: authData["client_id"],
         response_type: "code",
-        redirect_uri: `${url}/api/request_token/callback`,
+        redirect_uri: `${APP_URL}/api/request_token/callback`,
         scope: "user-read-recently-played"
     });
 
@@ -122,6 +122,51 @@ app.get("/api/request_token", async (req, res) => {
     }
     return res.send(access_token);
 });
+
+app.get("/api/get_mean_valence_by_days", async (req, res) => {
+    let q = "SELECT avg(valence) AS avg_valence FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days');";
+
+    db.get(q, [req.query.days],
+        (err, row) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            row["avg_valence"] == null ? res.status(204).send() : res.send(row["avg_valence"].toString());
+        });
+});
+
+app.get("/api/get_tracks_by_days", async (req, res) => {
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > datetime('now', '-' || ? || ' days') ORDER BY play_date ASC;";
+
+    db.all(q, [req.query.days],
+        (err, rows) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            rows.length == 0 ? res.status(204).send() : res.send(rows);
+        });
+});
+
+app.get("/api/get_tracks_by_date", async (req, res) => {
+    let q = "SELECT play_date AS date, title, valence, spotifyid FROM tracks WHERE play_date > date(?) AND play_date < date(?) ORDER BY play_date ASC;";
+
+    db.all(q, [req.query.startDate, req.query.endDate],
+        (err, rows) => {
+            if (err) {
+                res.status(500).send(err);
+                return;
+            }
+
+            rows.length == 0 ? res.status(204).send() : res.send(rows);
+        });
+});
+
+
+
 
 app.get("/api/update_tracks", async (req, res) => {
     if (refresh_token == undefined) {
