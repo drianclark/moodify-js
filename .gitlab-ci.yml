@@ -23,6 +23,7 @@ test:
     - cd server
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}"
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}" > authentication.json
+    - echo "{\"refresh_token\":\"$REFRESH_TOKEN\"}" > tokens.json
     - npm install
     - npx jest
 
