@@ -38,7 +38,7 @@ import TrackFilter from './TrackFilter.vue'
 import axios from 'axios';
 import moment from 'moment';
 
-const productionBaseURL = 'http://35.246.48.148:5000'
+const productionBaseURL = 'http://35.230.138.23'
 const devBaseURL = 'http://localhost:5000'
 const production = false
 
