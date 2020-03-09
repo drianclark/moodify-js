@@ -20,6 +20,8 @@ services:
             - ./frontend:/frontend
         ports:
             - '80:80'
+        environment: 
+            - VUE_APP_URL=http://localhost:5000 
         depends_on:
             - backend
         network_mode: host

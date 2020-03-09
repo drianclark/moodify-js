@@ -18,6 +18,8 @@ services:
         command: npm run serve -- --port 80  --host 0.0.0.0
         ports:
             - '80:80'
+        environment: 
+            - VUE_APP_URL=http://35.230.138.23:5000 
         depends_on:
             - backend
         network_mode: host
