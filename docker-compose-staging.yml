@@ -14,6 +14,15 @@ services:
         ports:
           - '80:80'
 
+    frontend:
+        build: ./frontend
+        command: npm run serve -- --port 80 --host 0.0.0.0
+        ports:
+          - '80:80'
+        depends_on: 
+          - backend
+        network_mode: host
+
     db_update_service:
         build: ./db_update_service
         command: npm run start
