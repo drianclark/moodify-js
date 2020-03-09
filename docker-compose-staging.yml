@@ -1,34 +1,33 @@
-version: "3.7"
+version: '3.7'
 
 services:
-
     backend:
         build: ./server
         command: npm run start
-        environment: 
-          - NODE_ENV=staging
-          - URL=http://35.230.144.118
-          - PORT=80
+        environment:
+            - NODE_ENV=staging
+            - URL=http://35.230.144.118
+            - PORT=80
         volumes:
-          - ./server/sqlite-db:/server/sqlite-db
+            - ./server/sqlite-db:/server/sqlite-db
         ports:
-          - '80:80'
+            - '80:80'
 
     frontend:
         build: ./frontend
         command: npm run serve -- --port 80 --host 0.0.0.0
         ports:
-          - '80:80'
-        depends_on: 
-          - backend
+            - '80:80'
+        depends_on:
+            - backend
         network_mode: host
 
     db_update_service:
         build: ./db_update_service
         command: npm run start
-        environment: 
-          - NODE_ENV=staging
-          - URL=http://35.230.144.118
-          - PORT=80
+        environment:
+            - NODE_ENV=staging
+            - URL=http://35.230.144.118
+            - PORT=80
         depends_on:
-          - backend
+            - backend
