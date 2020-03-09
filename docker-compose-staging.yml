@@ -11,11 +11,11 @@ services:
         volumes:
             - ./server/sqlite-db:/server/sqlite-db
         ports:
-            - '80:80'
+            - '5000:5000'
 
     frontend:
         build: ./frontend
-        command: npm run serve -- --port 80 --host 0.0.0.0
+        command: npm run serve -- --port 80 # --host 0.0.0.0
         ports:
             - '80:80'
         depends_on:
