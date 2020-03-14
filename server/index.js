@@ -237,7 +237,11 @@ app.get('/api/update_tracks', async (req, res) => {
 
     let new_tracks = tracks.slice(0, index);
 
-    if (index == 0) console.log('No new tracks to add');
+    if (index == 0) {
+        console.log('No new tracks to add');
+        res.status(201).send('No new tracks to add')
+    }
+     
     else {
         console.log('pushing to db');
 
@@ -255,6 +259,7 @@ app.get('/api/update_tracks', async (req, res) => {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
                     console.error(err.message);
+                    res.status(400).send(err);
                 }
             });
         });
