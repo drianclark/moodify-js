@@ -239,7 +239,7 @@ app.get('/api/update_tracks', async (req, res) => {
 
     if (index == 0) {
         console.log('No new tracks to add');
-        res.status(201).send('No new tracks to add')
+        return(res.status(201).send('No new tracks to add'))
     }
      
     else {
@@ -259,7 +259,7 @@ app.get('/api/update_tracks', async (req, res) => {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
                     console.error(err.message);
-                    res.status(400).send(err);
+                    return(res.status(400).send(err));
                 }
             });
         });
@@ -267,7 +267,7 @@ app.get('/api/update_tracks', async (req, res) => {
         console.log('added new_tracks');
     }
 
-    res.send(new_tracks);
+    return(res.status(200).send(new_tracks));
 });
 
 async function refresh_access_token() {
