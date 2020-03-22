@@ -38,7 +38,8 @@ import TrackFilter from './TrackFilter.vue'
 import axios from 'axios';
 import moment from 'moment';
 
-const baseURL = process.env.VUE_APP_URL
+// const baseURL = process.env.VUE_APP_URL
+const baseURL = "http://localhost:5000";
 console.log("baseURL is " + baseURL);
 
 const chunk = (arr, size) =>
@@ -192,7 +193,7 @@ export default {
                     type:'time',
                     distribution: 'series',
                     time: {
-                        minUnit: 'day'
+                        minUnit: 'day'                        
                     },
                     bounds: 'ticks',
                     ticks: {

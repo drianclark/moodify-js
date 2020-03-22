@@ -42,7 +42,7 @@
 
 
 <script>
-import Datepicker from 'vuejs-datepicker';;
+import Datepicker from 'vuejs-datepicker';
 
 export default {
     name: 'TrackFilter',
@@ -59,9 +59,7 @@ export default {
   }),
     computed: {
         disabledStartDates: function() {
-            if (this.endDate) {
-                return { from: this.endDate }
-            }
+            return { from: this.endDate }
         },
         disabledEndDates: function() {
             return { to: this.startDate, from: new Date() }
