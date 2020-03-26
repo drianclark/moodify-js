@@ -1,4 +1,4 @@
-FROM node:12.14.1-stretch
+FROM node:12.14.1-alpine3.11
 
 WORKDIR /server
 
