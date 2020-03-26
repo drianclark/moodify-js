@@ -1,6 +1,8 @@
 <template>
     <div class="background">
         <div class="title-section">
+            <div class="spacer"></div>
+
             <div class="title">
                 <h1>Moodify</h1>
                 <p>Mood through music</p>
@@ -25,10 +27,10 @@
                     <img src="../assets/bar-chart-2.svg" alt="graph icon" />
                 </div>
                 <p>
-                    By tracking your Spotify listening history, Moodify can help
-                    you visualize changes in your mood, helping you learn more
-                    about yourself- and maybe even make changes to your
-                    lifestyle!
+                    By tracking your Spotify listening history, Moodify can
+                    infer and help you visualize changes in your mood, helping
+                    you learn more about yourself- and maybe even make changes
+                    to your lifestyle!
                 </p>
             </div>
         </div>
@@ -78,7 +80,7 @@ $primaryFont: Raleway, sans-serif;
 $secondaryFont: Montserrat, sans-serif;
 
 .background {
-    background-image: linear-gradient(to right, #56ab2f, #96cb3e),
+    background-image: linear-gradient(to right, #56ab2f, #95cc3e),
         linear-gradient(to bottom, #8fca2f, #608e15);
     background-blend-mode: lighten;
     height: 200vh;
@@ -90,6 +92,10 @@ $secondaryFont: Montserrat, sans-serif;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .spacer {
+        flex-grow: 1;
+    }
 
     .title {
         flex-grow: 9;
