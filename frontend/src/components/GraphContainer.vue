@@ -192,7 +192,7 @@ export default {
                     type:'time',
                     distribution: 'series',
                     time: {
-                        minUnit: 'day'
+                        minUnit: 'day'                        
                     },
                     bounds: 'ticks',
                     ticks: {
