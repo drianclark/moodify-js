@@ -38,11 +38,8 @@ import TrackFilter from './TrackFilter.vue'
 import axios from 'axios';
 import moment from 'moment';
 
-const productionBaseURL = 'http://35.246.48.148:5000'
-const devBaseURL = 'http://localhost:5000'
-const production = false
-
-const baseURL = production ? productionBaseURL : devBaseURL 
+const baseURL = process.env.VUE_APP_URL
+console.log("baseURL is " + baseURL);
 
 const chunk = (arr, size) =>
 Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -195,7 +192,7 @@ export default {
                     type:'time',
                     distribution: 'series',
                     time: {
-                        minUnit: 'day'
+                        minUnit: 'day'                        
                     },
                     bounds: 'ticks',
                     ticks: {

@@ -15,7 +15,14 @@ async function requestUpdate() {
       console.log("sent get")
       var r = await timeout(3000, fetch(url));
       // console.log(r);
+      if (r.status == 201) {
+        console.log("No new tracks to add");
+        break;
+      }
+
       var json = await r.json();
+      console.log(json);
+      
       break;
     } 
     catch (error) {

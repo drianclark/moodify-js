@@ -1,27 +1,39 @@
-version: "3.7"
+version: '3.7'
 
 services:
-
     backend:
         build: ./server
         volumes:
-          - ./server:/app
+            - ./server:/server
         command: npm run dev
-        environment: 
-          - NODE_ENV=test
-          - URL=http://localhost:5000
-          - PORT=5000
+        environment:
+            - NODE_ENV=test
+            - URL=http://localhost:5000 
+            - PORT=5000
         ports:
-          - '5000:5000'
+            - '5000:5000'
+
+    frontend:
+        build: ./frontend
+        command: npm run serve -- --port 80
+        volumes:
+            - ./frontend:/frontend
+        ports:
+            - '80:80'
+        environment: 
+            - VUE_APP_URL=http://localhost:5000 
+        depends_on:
+            - backend
+        network_mode: host
 
     db_update_service:
         build: ./db_update_service
         volumes:
-          - ./db_update_service:/app
+            - ./db_update_service:/db_update_service
         command: npm run start
         environment:
-          - NODE_ENV=test
-          - URL=http://localhost:5000
-          - PORT=5000
+            - NODE_ENV=test
+            - URL=http://localhost:5000
+            - PORT=5000
         depends_on:
-          - backend
+            - backend

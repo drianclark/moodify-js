@@ -1,31 +1,69 @@
 <template>
-  <div id="app">
-    <!-- <ChartComponent/> -->
-    <ScatterChartContainer></ScatterChartContainer>
-  </div>
+    <div id="app">
+        <Navbar></Navbar>
+        <!-- <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div> -->
+        <router-view />
+    </div>
 </template>
 
-<script>
-// import ChartComponent from './components/Chart.vue'
-import ScatterChartContainer from './components/GraphContainer.vue'
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap');
+$primaryFont: Raleway, sans-serif;
+$secondaryFont: Montserrat, sans-serif;
 
-export default {
-  name: 'app',
-  components: {
-    // ChartComponent,
-    ScatterChartContainer
-  }
+html {
+    scroll-behavior: smooth;
 }
-</script>
 
-<style>
-@import url("assets/bootstrap.min.css");
+body::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: white;
+}
+body::-webkit-scrollbar-thumb {
+    background-color: rgb(64, 143, 28);
+}
+
+body {
+  margin: 0 !important;
+}
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 120px;
+    font-family: $primaryFont;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: white;
+}
+
+#nav {
+    padding: 30px;
+}
+
+#nav a {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+    color: #42b983;
 }
 </style>
+
+<script>
+import Navbar from './components/Navbar';
+
+document.title = "Moodify"
+
+export default {
+    components: {
+        Navbar
+    }
+}
+</script>
