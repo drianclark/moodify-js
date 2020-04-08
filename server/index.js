@@ -18,7 +18,7 @@ const dbName =
 console.log(dbName);
 
 app.use(cookieParser());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
@@ -101,7 +101,7 @@ app.get('/api/request_token', async (req, res) => {
 
     console.log(
         'redirect uri in request_token is ' +
-            `${APP_URL}/api/request_token/callback`
+        `${APP_URL}/api/request_token/callback`
     );
 
     let token_response = await fetch(url, {
@@ -118,7 +118,7 @@ app.get('/api/request_token', async (req, res) => {
     refresh_token = token_response.refresh_token;
 
     var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
-    fs.writeFile('tokens.json', tokens_json, 'utf8', function(err) {
+    fs.writeFile('tokens.json', tokens_json, 'utf8', function (err) {
         if (err) {
             console.log('An error occured writing JSON to file');
             return console.log(err);
@@ -137,7 +137,7 @@ app.get('/api/get_token', async (req, res) => {
 
     // if current token is expired, get new one
     const url =
-            'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+        'https://api.spotify.com/v1/me/player/recently-played?limit=50';
 
     while (true) {
         try {
@@ -145,7 +145,7 @@ app.get('/api/get_token', async (req, res) => {
                 headers: {
                     Authorization: 'Bearer ' + access_token
                 }
-            }).then(async function(res) {
+            }).then(async function (res) {
                 if (res.status == 401) throw '401 Error';
                 else history = await res.json();
             });
@@ -186,6 +186,8 @@ app.get('/api/get_tracks_by_days', async (req, res) => {
             res.status(500).send(err);
             return;
         }
+
+        console.log(`Rows: ${rows.length}, days: ${req.query.days}`);
 
         rows.length == 0 ? res.status(204).send() : res.send(rows);
     });
@@ -239,9 +241,9 @@ app.get('/api/update_tracks', async (req, res) => {
 
     if (index == 0) {
         console.log('No new tracks to add');
-        return(res.status(201).send('No new tracks to add'))
+        return (res.status(201).send('No new tracks to add'))
     }
-     
+
     else {
         console.log('pushing to db');
 
@@ -255,11 +257,11 @@ app.get('/api/update_tracks', async (req, res) => {
         let flattenedTracks = new_tracks.flat();
         // console.log(flattenedTracks);
 
-        db.serialize(function() {
+        db.serialize(function () {
             db.run(sql, flattenedTracks, err => {
                 if (err) {
                     console.error(err.message);
-                    return(res.status(400).send(err));
+                    return (res.status(400).send(err));
                 }
             });
         });
@@ -267,7 +269,7 @@ app.get('/api/update_tracks', async (req, res) => {
         console.log('added new_tracks');
     }
 
-    return(res.status(200).send(new_tracks));
+    return (res.status(200).send(new_tracks));
 });
 
 async function refresh_access_token() {
@@ -293,11 +295,11 @@ async function refresh_access_token() {
 }
 
 function get_latest_db_date() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         const query =
             'SELECT play_date date FROM tracks ORDER BY play_date DESC LIMIT 1;';
 
-        db.serialize(function() {
+        db.serialize(function () {
             db.get(query, [], (err, row) => {
                 if (err) {
                     console.error(err.message);
@@ -329,7 +331,7 @@ async function get_recently_played_tracks() {
                     headers: {
                         Authorization: 'Bearer ' + access_token
                     }
-                }).then(async function(res) {
+                }).then(async function (res) {
                     if (res.status == 401) throw '401 Error';
                     else history = await res.json();
                 });

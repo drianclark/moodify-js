@@ -1,16 +1,13 @@
 <template>
     <div id="app">
         <Navbar></Navbar>
-        <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
+
         <router-view />
     </div>
 </template>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap");
 $primaryFont: Raleway, sans-serif;
 $secondaryFont: Montserrat, sans-serif;
 
@@ -31,7 +28,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 body {
-  margin: 0 !important;
+    margin: 0 !important;
 }
 
 #app {
@@ -57,13 +54,13 @@ body {
 </style>
 
 <script>
-import Navbar from './components/Navbar';
+import Navbar from "./components/Navbar";
 
-document.title = "Moodify"
+document.title = "Moodify";
 
 export default {
     components: {
         Navbar
     }
-}
+};
 </script>
