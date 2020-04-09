@@ -214,7 +214,7 @@ window.onload = function() {
 
     .title-section {
         flex-basis: 40%;
-        margin-top: 10vh;
+        margin-top: 15vh;
 
         > .title {
             
@@ -243,6 +243,7 @@ window.onload = function() {
 
             > p {
                 font-size: 3vw;
+                text-align: center;
             }
         }
 

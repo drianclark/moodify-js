@@ -88,6 +88,45 @@
         margin: 0px;
     }
 }
+
+@media only screen and (max-width: $breakpointTablet) {
+    .content {
+
+        h1 {
+            margin-top: 5vh;
+            font-size: 4vw;
+        }
+
+        p {
+            font-size: 2.5vw;
+        }
+
+        li {
+            font-size: 2.3vw;
+        }
+
+    }
+}
+
+@media only screen and (max-width: $breakpointPhone) {
+    .content {
+
+        h1 {
+            margin-top: 7vh;
+            font-size: 7vw;
+        }
+
+        p {
+            font-size: 4vw;
+        }
+
+        li {
+            font-size: 3vw;
+        }
+
+    }
+
+}
 </style>
 
 <script>
