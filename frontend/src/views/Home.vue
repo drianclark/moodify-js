@@ -56,14 +56,12 @@ var isInViewport = function(elem) {
 
 window.onload = function() {
     var animation = document.getElementsByClassName('illustration')[0];
-    console.log(animation);
 
     window.addEventListener(
         'scroll',
         function() {
             if (isInViewport(animation)) {
                 let images = animation.getElementsByTagName('img');
-                console.log(images);
 
                 images.forEach(image => {
                     image.style.animationPlayState = 'running';
@@ -76,8 +74,7 @@ window.onload = function() {
 </script>
 
 <style lang="scss" scoped>
-$primaryFont: Raleway, sans-serif;
-$secondaryFont: Montserrat, sans-serif;
+@import "../assets/style/_variables.scss";
 
 .background {
     background-image: linear-gradient(to right, #56ab2f, #95cc3e),
@@ -149,7 +146,7 @@ $secondaryFont: Montserrat, sans-serif;
     justify-content: center;
 
     > .flex-container {
-        padding: 0 60vh;
+        padding: 0 20vw;
         text-align: left;
 
         > .illustration {
@@ -206,5 +203,50 @@ $secondaryFont: Montserrat, sans-serif;
             font-size: 1.6vw;
         }
     }
+}
+
+@media only screen and (max-width: $breakpointPhone) {
+    .background {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .title-section {
+        flex-basis: 40%;
+        margin-top: 10vh;
+
+        > .title {
+            
+            h1 {
+                font-size: 10vw;
+            }
+
+            p {
+                font-size: 5vw;
+            }
+        }
+    }
+
+    .title-interactive {
+        display: none;
+    }
+
+    .how-it-works {
+        display: block;
+        flex-basis: 60%;
+
+        > .flex-container {
+            > .illustration {
+                  display: none;
+            }
+
+            > p {
+                font-size: 3vw;
+            }
+        }
+
+    }
+
 }
 </style>

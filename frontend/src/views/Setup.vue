@@ -9,7 +9,7 @@
             <ol>
                 <li>
                     Create a Spotify developer account
-                    <a href="https://developer.spotify.com/">here</a>
+                    <a href="https://developer.spotify.com/"><u>here</u></a>
                 </li>
                 <li>
                     Navigate to your developer dashboard and create a new
@@ -42,8 +42,7 @@
 </template>
 
 <style lang="scss" scoped>
-$primaryFont: Raleway, sans-serif;
-$secondaryFont: Montserrat, sans-serif;
+@import "../assets/style/_variables.scss";
 
 .background {
     background-image: linear-gradient(to right, #56ab2f, #95cc3e),
