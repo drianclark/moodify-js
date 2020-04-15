@@ -12,13 +12,13 @@ moment().format();
 const app = express();
 
 const port = process.env.PORT || 5000;
-const APP_URL = process.env.URL || `http://localhost:${port}`;
+const APP_URL = process.env.URL || `https://localhost:${port}`;
 const dbName =
     app.get('env') === 'test' ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
 app.use(cookieParser());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 });
 
 const dbPath = path.resolve(__dirname, dbName);
-const db = new sqlite3.Database(dbPath, err => {
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.log(dbPath);
         console.log(err.message);
@@ -71,7 +71,7 @@ app.get('/api/request_code', async (req, res) => {
         client_id: authData['client_id'],
         response_type: 'code',
         redirect_uri: `${APP_URL}/api/request_token/callback`,
-        scope: 'user-read-recently-played'
+        scope: 'user-read-recently-played',
     });
 
     let code = await fetch('https://accounts.spotify.com/authorize?' + params);
@@ -85,7 +85,7 @@ app.get('/api/request_token/callback', async (req, res) => {
     console.log('in callback');
     res.cookie('authentication_code', req.query.code, {
         expires: new Date(Date.now() + 9000000),
-        sameSite: true
+        sameSite: true,
     });
     console.log('redirecting from callback');
     return res.redirect('/api/request_token');
@@ -108,9 +108,9 @@ app.get('/api/request_token', async (req, res) => {
         method: 'POST',
         body: params,
         headers: {
-            Authorization: 'Basic ' + authorization_header
-        }
-    }).then(res => res.json());
+            Authorization: 'Basic ' + authorization_header,
+        },
+    }).then((res) => res.json());
 
     console.log(token_response);
 
@@ -118,7 +118,7 @@ app.get('/api/request_token', async (req, res) => {
     refresh_token = token_response.refresh_token;
 
     var tokens_json = `{"access_token": "${access_token}",\n "refresh_token": "${refresh_token}"}`;
-    fs.writeFile('tokens.json', tokens_json, 'utf8', function(err) {
+    fs.writeFile('tokens.json', tokens_json, 'utf8', function (err) {
         if (err) {
             console.log('An error occured writing JSON to file');
             return console.log(err);
@@ -134,18 +134,16 @@ app.get('/api/request_token', async (req, res) => {
 });
 
 app.get('/api/get_token', async (req, res) => {
-
     // if current token is expired, get new one
-    const url =
-            'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+    const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
 
     while (true) {
         try {
             await fetch(url, {
                 headers: {
-                    Authorization: 'Bearer ' + access_token
-                }
-            }).then(async function(res) {
+                    Authorization: 'Bearer ' + access_token,
+                },
+            }).then(async function (res) {
                 if (res.status == 401) throw '401 Error';
                 else history = await res.json();
             });
@@ -158,7 +156,7 @@ app.get('/api/get_token', async (req, res) => {
         break;
     }
 
-    return res.send(access_token)
+    return res.send(access_token);
 });
 
 app.get('/api/get_mean_valence_by_days', async (req, res) => {
@@ -209,7 +207,7 @@ app.get('/api/update_tracks', async (req, res) => {
     if (refresh_token == undefined) {
         res.cookie('redirect_to', 'update_tracks', {
             expires: new Date(Date.now() + 9000000),
-            sameSite: true
+            sameSite: true,
         });
 
         console.log('undefined refresh token ');
@@ -228,7 +226,7 @@ app.get('/api/update_tracks', async (req, res) => {
 
     index = 0;
 
-    tracks.some(track => {
+    tracks.some((track) => {
         if (moment(track[2]).isSameOrBefore(latest_play_date)) {
             return true; // break
         }
@@ -239,10 +237,8 @@ app.get('/api/update_tracks', async (req, res) => {
 
     if (index == 0) {
         console.log('No new tracks to add');
-        return(res.status(201).send('No new tracks to add'))
-    }
-     
-    else {
+        return res.status(201).send('No new tracks to add');
+    } else {
         console.log('pushing to db');
 
         let placeholders = new_tracks
@@ -255,11 +251,11 @@ app.get('/api/update_tracks', async (req, res) => {
         let flattenedTracks = new_tracks.flat();
         // console.log(flattenedTracks);
 
-        db.serialize(function() {
-            db.run(sql, flattenedTracks, err => {
+        db.serialize(function () {
+            db.run(sql, flattenedTracks, (err) => {
                 if (err) {
                     console.error(err.message);
-                    return(res.status(400).send(err));
+                    return res.status(400).send(err);
                 }
             });
         });
@@ -267,7 +263,7 @@ app.get('/api/update_tracks', async (req, res) => {
         console.log('added new_tracks');
     }
 
-    return(res.status(200).send(new_tracks));
+    return res.status(200).send(new_tracks);
 });
 
 async function refresh_access_token() {
@@ -278,10 +274,10 @@ async function refresh_access_token() {
     let r = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         headers: {
-            Authorization: 'Basic ' + authorization_header
+            Authorization: 'Basic ' + authorization_header,
         },
-        body: params
-    }).catch(err => {
+        body: params,
+    }).catch((err) => {
         console.log('error in refresh access token');
     });
 
@@ -293,11 +289,11 @@ async function refresh_access_token() {
 }
 
 function get_latest_db_date() {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         const query =
             'SELECT play_date date FROM tracks ORDER BY play_date DESC LIMIT 1;';
 
-        db.serialize(function() {
+        db.serialize(function () {
             db.get(query, [], (err, row) => {
                 if (err) {
                     console.error(err.message);
@@ -327,9 +323,9 @@ async function get_recently_played_tracks() {
             try {
                 await fetch(url, {
                     headers: {
-                        Authorization: 'Bearer ' + access_token
-                    }
-                }).then(async function(res) {
+                        Authorization: 'Bearer ' + access_token,
+                    },
+                }).then(async function (res) {
                     if (res.status == 401) throw '401 Error';
                     else history = await res.json();
                 });
@@ -342,11 +338,11 @@ async function get_recently_played_tracks() {
             break;
         }
 
-        history.items.forEach(item => {
+        history.items.forEach((item) => {
             let trackArray = [
                 item.track.id,
                 item.track.name,
-                moment(item.played_at).format('YYYY-MM-DD HH:mm:ss')
+                moment(item.played_at).format('YYYY-MM-DD HH:mm:ss'),
             ];
 
             tracksPlayed.push(trackArray);
@@ -359,8 +355,8 @@ async function get_recently_played_tracks() {
             )}`,
             {
                 headers: {
-                    Authorization: 'Bearer ' + access_token
-                }
+                    Authorization: 'Bearer ' + access_token,
+                },
             }
         );
 

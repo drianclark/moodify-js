@@ -1,7 +1,11 @@
 const fetch = require('node-fetch');
+const https = require("https");
+const agent = new https.Agent({
+  rejectUnauthorized: false
+})
 
 const port = process.env.PORT || 5000;
-const url = `http://backend:${port}/api/update_tracks`
+const url = `https://backend:${port}/api/update_tracks`
 
 const msToWaitBeforeUpdate = 300000;
 
@@ -13,7 +17,7 @@ async function requestUpdate() {
   while (true) {
     try {
       console.log("sent get")
-      var r = await timeout(3000, fetch(url));
+      var r = await timeout(3000, fetch(url, {agent}));
       // console.log(r);
       if (r.status == 201) {
         console.log("No new tracks to add");

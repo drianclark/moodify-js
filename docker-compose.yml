@@ -8,20 +8,20 @@ services:
         command: npm run dev
         environment:
             - NODE_ENV=test
-            - URL=http://localhost:5000 
+            - URL=https://localhost:5000 
             - PORT=5000
         ports:
             - '5000:5000'
 
     frontend:
         build: ./frontend
-        command: npm run serve -- --port 80
+        command: npm run serve -- --port 443
         volumes:
             - ./frontend:/frontend
         ports:
             - '80:80'
         environment: 
-            - VUE_APP_URL=http://localhost:5000 
+            - VUE_APP_URL=https://localhost:5000 
         depends_on:
             - backend
         network_mode: host
@@ -33,7 +33,7 @@ services:
         command: npm run start
         environment:
             - NODE_ENV=test
-            - URL=http://localhost:5000
+            - URL=https://localhost:5000
             - PORT=5000
         depends_on:
             - backend
