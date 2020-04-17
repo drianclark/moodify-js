@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const { URLSearchParams } = require('url');
 const sqlite3 = require('sqlite3');
 var moment = require('moment');
@@ -10,6 +11,7 @@ var moment = require('moment');
 moment().format();
 
 const app = express();
+app.use(helmet());
 
 const port = process.env.PORT || 5000;
 const APP_URL = process.env.URL || `https://localhost:${port}`;
