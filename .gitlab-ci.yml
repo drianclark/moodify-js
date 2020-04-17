@@ -8,7 +8,11 @@ image: node:12.14.1-slim
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
   paths:
-    - server/node_modules/
+    - api/node_modules/
+    - frontend/node_modules
+    - db_update_service/node_modules
+    - https-redirector/node_modules
+
 
 before_script:
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -20,7 +24,7 @@ before_script:
 test:
   stage: test
   script:
-    - cd server
+    - cd api
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}"
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}" > authentication.json
     - echo "{\"refresh_token\":\"$REFRESH_TOKEN\"}" > tokens.json
