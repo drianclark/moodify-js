@@ -49,7 +49,7 @@ try {
     ];
 } catch (err) {
     console.log(
-        'No tokens found. Create tokens first by visiting /api/request_code'
+        'No tokens found. Create tokens first by visiting https://localhost:5000/api/request_code'
     );
 }
 

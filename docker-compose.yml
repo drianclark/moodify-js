@@ -16,7 +16,7 @@ services:
 
     frontend:
         build: ./frontend
-        command: npm run serve
+        command: npm run serve -- --port 443
         volumes:
             - ./frontend:/frontend
 
