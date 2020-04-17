@@ -1,10 +1,11 @@
 version: '3.7'
 
 services:
-    backend:
-        build: ./server
+    api:
+        build: ./api
         volumes:
-            - ./server:/server
+            - ./api:/api
+
         command: npm run dev
         environment:
             - NODE_ENV=test
@@ -15,15 +16,23 @@ services:
 
     frontend:
         build: ./frontend
-        command: npm run serve -- --port 443
+        command: npm run serve
         volumes:
             - ./frontend:/frontend
-        ports:
-            - '80:80'
+
         environment: 
             - VUE_APP_URL=https://localhost:5000 
         depends_on:
-            - backend
+            - api
+        network_mode: host
+
+    https-redirector:
+        build: ./https-redirector
+        volumes:
+            - ./https-redirector:/https-redirector
+        command: node redirector.js
+        depends_on:
+            - api
         network_mode: host
 
     db_update_service:
@@ -36,4 +45,4 @@ services:
             - URL=https://localhost:5000
             - PORT=5000
         depends_on:
-            - backend
+            - api

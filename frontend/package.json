@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "serve --ssl-cert './certs/server.cert' --ssl-key './certs/server.key' -l 443 -s  dist",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -13,6 +13,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "moment": "^2.24.0",
+    "serve": "^11.3.0",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-router": "^3.1.5",

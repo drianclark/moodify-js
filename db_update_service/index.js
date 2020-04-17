@@ -5,7 +5,7 @@ const agent = new https.Agent({
 })
 
 const port = process.env.PORT || 5000;
-const url = `https://backend:${port}/api/update_tracks`
+const url = `https://api:${port}/api/update_tracks`
 
 const msToWaitBeforeUpdate = 300000;
 

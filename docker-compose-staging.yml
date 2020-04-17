@@ -1,35 +1,35 @@
 version: '3.7'
 
 services:
-    backend:
-        build: ./server
+    api:
+        build: ./api
         command: npm run start
         environment:
             - NODE_ENV=staging
             - URL=https://35.230.138.23
             - PORT=5000
         volumes:
-            - ./server/sqlite-db:/server/sqlite-db
+            - ./api/sqlite-db:/api/sqlite-db
         ports:
             - '5000:5000'
 
     frontend:
-        build: ./frontend
-        command: npm run serve -- --port 443  --host 0.0.0.0
-        ports:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.staging
+        command: npm run serve
             - '443:443'
         environment: 
             - VUE_APP_URL=https://35.230.138.23:5000 
         depends_on:
-            - backend
+            - api
         network_mode: host
 
     db_update_service:
         build: ./db_update_service
         command: npm run start
         environment:
-            - NODE_ENV=staging
             - URL=https://35.230.138.23
             - PORT=5000
         depends_on:
-            - backend
+            - api
