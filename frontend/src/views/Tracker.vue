@@ -216,7 +216,7 @@ export default {
                                 fill: false,
                                 showLine: true,
                                 lineTension: 0,
-                                borderColor: "rgba(0, 128, 255, 1)"
+                                borderColor: "white"
                             }
                         ]
                     };
@@ -354,7 +354,7 @@ export default {
                         fill: false,
                         showLine: true,
                         lineTension: 0,
-                        borderColor: "rgba(0, 128, 255, 1)"
+                        borderColor: "white"
                     }
                 ]
             };
