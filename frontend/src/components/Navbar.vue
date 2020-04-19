@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <div class="left">
-            <p>Moodify</p>
+            <img src="moodify.svg" class="logo" />
         </div>
 
         <div class="right">
@@ -16,7 +16,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap");
 $primaryFont: Raleway, sans-serif;
 $secondaryFont: Montserrat, sans-serif;
 
@@ -35,11 +35,9 @@ $secondaryFont: Montserrat, sans-serif;
         text-align: left;
         height: 100%;
 
-        > p {
+        > .logo {
             margin: auto;
-            font-family: $secondaryFont;
-            font-weight: bold;
-            font-size: 2vw;
+            height: 90px;
         }
     }
 
@@ -74,6 +72,6 @@ $secondaryFont: Montserrat, sans-serif;
 
 <script>
 export default {
-    name: 'Navbar'
+    name: "Navbar"
 };
 </script>
