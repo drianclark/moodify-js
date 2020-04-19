@@ -11,10 +11,7 @@
             <div class="title-interactive">
                 <p>How does it work?</p>
                 <a href="#how-it-works">
-                    <img
-                        src="../assets/arrow-down-circle.svg"
-                        alt="arrow down button"
-                    />
+                    <img src="../assets/arrow-down-circle.svg" alt="arrow down button" />
                 </a>
             </div>
         </div>
@@ -38,12 +35,8 @@
 </template>
 
 <script>
-export default {
-    name: 'home'
-};
-
-var isInViewport = function(elem) {
-    var bounding = elem.getBoundingClientRect();
+const isInViewport = function(elem) {
+    let bounding = elem.getBoundingClientRect();
     return (
         bounding.top >= 0 &&
         bounding.left >= 0 &&
@@ -54,24 +47,27 @@ var isInViewport = function(elem) {
     );
 };
 
-window.onload = function() {
-    var animation = document.getElementsByClassName('illustration')[0];
-    console.log(animation);
+const scrollListener = function() {
+    let animation = document.getElementsByClassName("illustration")[0];
 
-    window.addEventListener(
-        'scroll',
-        function() {
-            if (animation != undefined && isInViewport(animation)) {
-                let images = animation.getElementsByTagName('img');
-                console.log(images);
+    if (isInViewport(animation)) {
+        let images = animation.getElementsByTagName("img");
+        console.log(images);
 
-                images.forEach(image => {
-                    image.style.animationPlayState = 'running';
-                });
-            }
-        },
-        false
-    );
+        images.forEach(image => {
+            image.style.animationPlayState = "running";
+        });
+    }
+};
+
+export default {
+    name: "home",
+    mounted: function() {
+        window.addEventListener("scroll", scrollListener, false);
+    },
+    destroyed: function() {
+        window.removeEventListener("scroll", scrollListener);
+    }
 };
 </script>
 
