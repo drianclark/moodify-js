@@ -17,8 +17,7 @@ services:
         build:
             context: ./frontend
             dockerfile: Dockerfile.staging
-        command: npm run serve
-            - '443:443'
+        command: npm run serve -- --port 443 --host 0.0.0.0
         environment:
             - VUE_APP_URL=https://35.230.138.23:5000
         depends_on:
@@ -27,8 +26,6 @@ services:
 
     https-redirector:
         build: ./https-redirector
-        volumes:
-            - ./https-redirector:/https-redirector
         command: node redirector.js
         depends_on:
             - api
