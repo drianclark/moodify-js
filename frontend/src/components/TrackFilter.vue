@@ -3,24 +3,26 @@
         <b-tabs content-class="mt-3" fill>
             <b-tab title="Past X Days" active>
                 <b-form inline>
+                    Show me my music's mood over the past
                     <b-input
                         v-model="numberOfDays"
                         required
                         placeholder="days"
-                        class="mr-3"
+                        class="mx-3"
                         type="number"
                         min="1"
                     ></b-input>
-
-                    <b-button variant="outline-primary" v-on:click="daysFilter">Update</b-button>
+                    day{{ numberOfDays == 1 ? "" : "s" }}
+                    <b-button variant="outline-primary" v-on:click="daysFilter" class="ml-3">Update</b-button>
                 </b-form>
             </b-tab>
             <b-tab title="Between Dates">
                 <b-form inline>
-                    <b-form-datepicker class="mr-3" v-model="startDate"></b-form-datepicker>
-                    <b-form-datepicker class="mr-3" v-model="endDate"></b-form-datepicker>
+                    Show me my music's mood between
+                    <b-form-datepicker class="mx-3" v-model="startDate"></b-form-datepicker>and
+                    <b-form-datepicker class="ml-3" v-model="endDate"></b-form-datepicker>
 
-                    <b-button variant="outline-primary" v-on:click="dateFilter">Update</b-button>
+                    <b-button variant="outline-primary" v-on:click="dateFilter" class="ml-3">Update</b-button>
                 </b-form>
             </b-tab>
         </b-tabs>

@@ -42,7 +42,7 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $primaryFont: Raleway, sans-serif;
 $secondaryFont: Montserrat, sans-serif;
 
@@ -50,7 +50,7 @@ $secondaryFont: Montserrat, sans-serif;
     background-image: linear-gradient(to right, #56ab2f, #95cc3e),
         linear-gradient(to bottom, #8fca2f, #608e15);
     background-blend-mode: lighten;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
 }
 
@@ -75,20 +75,44 @@ $secondaryFont: Montserrat, sans-serif;
     a:hover {
         color: rgb(206, 206, 206);
     }
+}
 
-    code {
-        // display: block;
-        // margin-top: 1rem;
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    display: inline-block;
+    margin: 0 10px;
+}
+a {
+    color: #42b983;
+}
 
-        display: block;
-        color: black;
-        margin-top: 10px;
-        width: fit-content;
-        background-color: white;
-        padding: 0.2rem 0.5rem;
-        border-radius: 5px;
-        margin: 0px;
-    }
+#chartjs-tooltip {
+    opacity: 1;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+    -webkit-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    pointer-events: none;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.track-title {
+    font-family: $primaryFont;
+    font-size: 22px;
+    text-align: left;
+}
+
+.artists {
+    font-family: $primaryFont;
+    text-align: left;
+    font-size: 16px;
 }
 </style>
 
@@ -145,7 +169,7 @@ export default {
                                 fill: false,
                                 showLine: true,
                                 lineTension: 0,
-                                borderColor: "rgba(0, 128, 255, 1)"
+                                borderColor: "white"
                             }
                         ]
                     };
@@ -257,6 +281,9 @@ export default {
 
         configureAxes: function() {
             this.options.scales = {
+                gridLines: {
+                    color: "white"
+                },
                 xAxes: [
                     {
                         type: "time",
@@ -266,7 +293,13 @@ export default {
                         },
                         bounds: "ticks",
                         ticks: {
-                            minRotation: 90
+                            minRotation: 90,
+                            fontColor: "rgba(255, 255, 255, 0.8)",
+                            fontFamily: "'Raleway', sans-serif"
+                        },
+                        gridLines: {
+                            color: "rgba(255, 255, 255, 0.2)",
+                            zeroLineColor: "rgba(255, 255, 255, 0.2)"
                         }
                     }
                 ],
@@ -274,7 +307,12 @@ export default {
                     {
                         ticks: {
                             stepSize: 0.5,
-                            maxTicksLimit: 3
+                            maxTicksLimit: 3,
+                            fontColor: "rgba(255, 255, 255, 0.8)"
+                        },
+                        gridLines: {
+                            color: "rgba(255, 255, 255, 0.2)",
+                            zeroLineColor: "rgba(255, 255, 255, 0.2)"
                         }
                     }
                 ]
@@ -326,6 +364,17 @@ export default {
                 maintainAspectRatio: false,
                 legend: {
                     display: false
+                },
+                elements: {
+                    point: {
+                        radius: 4,
+                        backgroundColor: "white"
+                    }
+                },
+                layout: {
+                    padding: {
+                        bottom: 50
+                    }
                 }
             };
             this.updateTooltips(response);

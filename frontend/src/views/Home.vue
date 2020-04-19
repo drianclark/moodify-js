@@ -61,7 +61,7 @@ window.onload = function() {
     window.addEventListener(
         'scroll',
         function() {
-            if (isInViewport(animation)) {
+            if (animation != undefined && isInViewport(animation)) {
                 let images = animation.getElementsByTagName('img');
                 console.log(images);
 
