@@ -37,7 +37,7 @@ deploy:
     - echo "{\"client_id\":\"$CLIENT_ID\", \"client_secret\":\"$CLIENT_SECRET\"}" > authentication.json
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
     - ssh spotifymoodtracker@35.230.138.23 "cd web-tech && docker-compose stop && git checkout staging && git stash && git pull origin staging && exit"
-    - scp authentication.json spotifymoodtracker@35.230.138.23:~/web-tech/server
+    - scp authentication.json spotifymoodtracker@35.230.138.23:~/web-tech/api
     - ssh spotifymoodtracker@35.230.138.23 "cd web-tech && docker-compose build --no-cache && docker-compose -f docker-compose-staging.yml up -d && exit"
   only: 
     - staging
