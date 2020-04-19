@@ -14,14 +14,16 @@ const app = express();
 app.use(helmet());
 
 const port = process.env.PORT || 5000;
-const APP_URL = process.env.URL || `https://localhost:${port}`;
+const APP_URL = process.env.URL + port || `https://localhost:${port}`;
+const origin = 
+    app.get('env') === 'test' ? 'https://localhost' : 'https://35.230.138.23'
 const dbName =
     app.get('env') === 'test' ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
 
 app.use(cookieParser());
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'https://localhost');
+    res.header('Access-Control-Allow-Origin', origin);
     res.header(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
