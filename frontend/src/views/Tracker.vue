@@ -108,6 +108,7 @@ a {
 </style>
 
 <script>
+import Chart from "chart.js";
 import ScatterChart from "@/components/Graph.vue";
 import TrackFilter from "@/components/TrackFilter.vue";
 import axios from "axios";
@@ -122,6 +123,26 @@ const chunk = (arr, size) =>
     );
 
 var tracksinfo = {};
+
+Chart.Tooltip.positioners.custom = function(elements, position) {
+    let yPos = position.y;
+    let xPos = position.x;
+
+    if (position.y > elements[0]._chart.height / 3) {
+        yPos += elements[0]._chart.height / 3 - position.y;
+    }
+
+    if (position.x < 150) {
+        xPos = 150;
+    } else if (position.x > elements[0]._chart.width - 150) {
+        xPos = elements[0]._chart.width - 150;
+    }
+
+    return {
+        x: xPos,
+        y: yPos
+    };
+};
 
 export default {
     name: "Tracker",
@@ -261,7 +282,7 @@ export default {
             this.options.tooltips = {
                 enabled: false,
                 mode: "index",
-                position: "nearest",
+                position: "custom",
                 custom: customTooltips,
                 callbacks: {
                     label: function(tooltipItem, data) {
