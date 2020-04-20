@@ -113,6 +113,9 @@ import TrackFilter from "@/components/TrackFilter.vue";
 import axios from "axios";
 import moment from "moment";
 
+const baseURL = process.env.VUE_APP_URL;
+console.log("baseURL is " + baseURL);
+
 const chunk = (arr, size) =>
     Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
         arr.slice(i * size, i * size + size)
@@ -131,7 +134,7 @@ export default {
             this.loaded = false;
 
             axios
-                .get("/api/get_tracks_by_days", {
+                .get(baseURL + "/api/get_tracks_by_days", {
                     params: {
                         days: numberOfDays
                     }
@@ -177,7 +180,7 @@ export default {
             this.loaded = false;
 
             axios
-                .get("/api/get_tracks_by_date", {
+                .get(baseURL + "/api/get_tracks_by_date", {
                     params: {
                         startDate: moment(startDate).format("YYYY-MM-DD"),
                         endDate: moment(endDate).format("YYYY-MM-DD")
@@ -248,7 +251,7 @@ export default {
 
         triggerTracksUpdate: function() {
             this.trackUpdateLoading = true;
-            axios.get("/api/update_tracks").then(response => {
+            axios.get(baseURL + "/api/update_tracks").then(response => {
                 console.log(response);
                 this.trackUpdateLoading = false;
             });
@@ -320,11 +323,14 @@ export default {
     async mounted() {
         this.loaded = false;
         try {
-            const response = await axios.get("/api/get_tracks_by_days", {
-                params: {
-                    days: 1
+            const response = await axios.get(
+                baseURL + "/api/get_tracks_by_days",
+                {
+                    params: {
+                        days: 1
+                    }
                 }
-            });
+            );
 
             let data = [];
             let index = 0;
@@ -383,7 +389,7 @@ var accessToken;
 getAccessToken();
 
 function getAccessToken() {
-    axios.get("/api/get_token").then(token => {
+    axios.get(baseURL + "/api/get_token").then(token => {
         accessToken = token.data;
         return token.data;
     });
@@ -394,7 +400,7 @@ function getTracksInfo(spotifyids) {
 
     var refresh_interceptor = axios.interceptors.response.use(null, error => {
         if (error.config && error.response && error.response.status === 401) {
-            return axios.get("/api/get_token").then(token => {
+            return axios.get(baseURL + "/api/get_token").then(token => {
                 error.config.headers.Authorization = "Bearer " + token.data;
                 return axios.request(error.config);
             });
