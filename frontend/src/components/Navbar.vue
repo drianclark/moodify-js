@@ -16,8 +16,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap');
-@import "../assets/style/_variables.scss";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap");
+$primaryFont: Raleway, sans-serif;
+$secondaryFont: Montserrat, sans-serif;
 
 .navbar {
     position: absolute;
@@ -69,33 +70,10 @@
         }
     }
 }
-
-
-@media only screen and (max-width: $breakpointTablet) {
-    .navbar {
-        padding: 3vw 4vw 0 4vw;
-    }
-
-    .navbar ul > a, .navbar > .left > p {
-        font-size: 2.4vw;
-    }
-
-}
-
-@media only screen and (max-width: $breakpointPhone) {
-
-    .navbar ul > a, .navbar > .left > p {
-        font-size: 3.2vw;
-    }
-
-    .navbar ul > a {
-        margin-left: 4vw;
-    }
-}
 </style>
 
 <script>
 export default {
-    name: 'Navbar'
+    name: "Navbar"
 };
 </script>
