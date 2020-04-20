@@ -1,7 +1,7 @@
 <template>
     <div class="navbar">
         <div class="left">
-            <img src="moodify.svg" class="logo" />
+            <p>Moodify</p>
         </div>
 
         <div class="right">
@@ -35,9 +35,11 @@ $secondaryFont: Montserrat, sans-serif;
         text-align: left;
         height: 100%;
 
-        > .logo {
+        > p {
             margin: auto;
-            height: 90px;
+            font-family: $secondaryFont;
+            font-weight: bold;
+            font-size: 2vw;
         }
     }
 

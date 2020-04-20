@@ -4,14 +4,16 @@
             <div class="spacer"></div>
 
             <div class="title">
-                <h1>Moodify</h1>
+                <h1>
+                    <img src="../assets/moodify.svg" alt="Moodify" />
+                </h1>
                 <p>Mood through music</p>
             </div>
 
             <div class="title-interactive">
                 <p>How does it work?</p>
                 <a href="#how-it-works">
-                    <img src="../assets/arrow-down-circle.svg" alt="arrow down button" />
+                    <img src="../assets/down_arrow_circle.svg" alt="arrow down button" />
                 </a>
             </div>
         </div>
@@ -20,8 +22,8 @@
             <div class="flex-container">
                 <div class="illustration">
                     <img src="../assets/music.svg" alt="musical note" />
-                    <img src="../assets/arrow-right.svg" alt="right arrow" />
-                    <img src="../assets/bar-chart-2.svg" alt="graph icon" />
+                    <img src="../assets/right_arrow.svg" alt="right arrow" />
+                    <img src="../assets/data.svg" alt="graph icon" />
                 </div>
                 <p>
                     By tracking your Spotify listening history, Moodify can
@@ -122,11 +124,11 @@ $secondaryFont: Montserrat, sans-serif;
 
         > a {
             background-size: 1vh;
-            width: 1.2em;
             filter: invert(1);
             transition: ease-out 0.5s;
 
             > img {
+                width: 2em;
                 transition: ease-out 0.5s;
             }
 

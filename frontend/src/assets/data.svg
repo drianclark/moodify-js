@@ -1,0 +1,27 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1 {
+        stroke-width: 8px;
+      }
+
+      .cls-2 {
+        stroke-width: 12px;
+      }
+    </style>
+  </defs>
+  <title>data</title>
+  <polyline id="axes" class="cls-1" points="53 53 53 203 203 203"/>
+  <g id="trend">
+    <g>
+      <polyline class="cls-2" points="57.5 199.5 87 140 123 160 179.71 86.75"/>
+      <polygon points="190.32 101.38 195 67 162.88 80.14 190.32 101.38"/>
+    </g>
+  </g>
+</svg>

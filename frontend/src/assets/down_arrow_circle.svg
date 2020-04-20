@@ -1,0 +1,18 @@
+<svg id="down_arrow_circle" data-name="down arrow circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 12px;
+      }
+    </style>
+  </defs>
+  <title>down_arrow_circle</title>
+  <circle id="circle" class="cls-1" cx="128" cy="128" r="90"/>
+  <g>
+    <line class="cls-1" x1="128" y1="73.07" x2="128" y2="169.91"/>
+    <polygon points="78.92 130.15 87.71 121.97 127.99 165.31 168.28 121.97 177.07 130.15 127.99 182.93 78.92 130.15"/>
+  </g>
+</svg>
