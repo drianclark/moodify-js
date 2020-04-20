@@ -42,7 +42,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../assets/style/_variables.scss";
+@import "../style/_variables.scss";
 
 .background {
     background-image: linear-gradient(to right, #56ab2f, #95cc3e),
