@@ -309,7 +309,8 @@ export default {
                         ticks: {
                             minRotation: 90,
                             fontColor: "rgba(255, 255, 255, 0.8)",
-                            fontFamily: "'Raleway', sans-serif"
+                            fontFamily: "'Raleway', sans-serif",
+                            source: "label"
                         },
                         gridLines: {
                             color: "rgba(255, 255, 255, 0.2)",
