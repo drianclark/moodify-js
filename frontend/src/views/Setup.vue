@@ -1,11 +1,12 @@
 <template>
     <div class="background">
-        <section class="content">
+        <section class="content" role="main">
             <h1>Getting Started</h1>
-            <p>
+            <h2>
                 Since Moodify utilises the Spotify API, some initial setup is
                 required to get it up and running.
-            </p>
+            </h2>
+            <br>
             <ol>
                 <li>
                     Create a Spotify developer account
@@ -56,9 +57,15 @@
 .content {
     padding: 10vw 5vw 0 5vw;
     text-align: left;
+    font-size: 1.2vw;
 
     h1 {
       font-family: $secondaryFont;
+      font-weight: bold;
+    }
+
+    h2 {
+        font-size: 1.3vw;
     }
 
     ol {

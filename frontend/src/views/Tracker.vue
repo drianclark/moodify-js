@@ -38,6 +38,13 @@
                 :options="options"
                 :chart-data="chartdata"
             />
+
+            <div class="sr-only" role="main">
+                <li v-for="(track, i) in loadedTracks" :key="i">
+                    Played {{track.title}} with valence {{track.valence}} on {{track.date}}   
+                </li>
+            </div>
+
         </section>
     </div>
 </template>
@@ -153,6 +160,7 @@ export default {
     methods: {
         updateChartDays: function(numberOfDays) {
             this.loaded = false;
+            this.loadedTracks = [];
 
             axios
                 .get(baseURL + "/api/get_tracks_by_days", {
@@ -172,6 +180,9 @@ export default {
                             y: track.valence
                         });
                         spotifyIDs.push(track.spotifyid);
+
+                        track.date = moment(track.date).format("MMMM Do");
+                        this.loadedTracks.push(track);
                         index += 1;
                     }
 
@@ -199,6 +210,7 @@ export default {
 
         updateChartDate: function(startDate, endDate) {
             this.loaded = false;
+            this.loadedTracks = [];
 
             axios
                 .get(baseURL + "/api/get_tracks_by_date", {
@@ -218,8 +230,13 @@ export default {
                             y: track.valence
                         });
                         spotifyIDs.push(track.spotifyid);
+
+                        track.date = moment(track.date).format("MMMM Do");
+                        this.loadedTracks.push(track);
                         index += 1;
                     }
+
+                    this.spotifyids = spotifyIDs;
 
                     console.log(response);
                     this.updateTracksInfo(spotifyIDs);
@@ -264,6 +281,7 @@ export default {
                     tracksinfo[spotifyID] = currentInfo;
                 }
             }
+
         },
 
         dateFormatter: function(date) {
@@ -339,7 +357,8 @@ export default {
         loaded: false,
         chartdata: null,
         options: null,
-        trackUpdateLoading: false
+        trackUpdateLoading: false,
+        loadedTracks: []
     }),
 
     async mounted() {
@@ -361,6 +380,9 @@ export default {
             for (let track of response.data) {
                 data.push({ x: moment(track.date).toDate(), y: track.valence });
                 spotifyIDs.push(track.spotifyid);
+
+                track.date = moment(track.date).format("MMMM Do");
+                this.loadedTracks.push(track);
                 index += 1;
             }
 
@@ -399,7 +421,6 @@ export default {
             this.updateTooltips(response);
             this.configureAxes();
 
-            console.log(tracksinfo);
             this.loaded = true;
         } catch (e) {
             console.error(e);

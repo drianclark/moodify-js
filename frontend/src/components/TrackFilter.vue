@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-tabs content-class="mt-3" fill>
-            <b-tab title="Past X Days" active>
+            <b-tab aria-label="Show music mood over x days" id="byDays" title="Past X Days" active>
                 <b-form inline>
                     Show me my music's mood over the past
                     <b-input
@@ -11,6 +11,7 @@
                         class="mx-3"
                         type="number"
                         min="1"
+                        aria-labelledby="byDays"
                     ></b-input>
                     day{{ numberOfDays == 1 ? "" : "s" }}
                     <b-button variant="outline-primary" v-on:click="daysFilter" class="ml-3">Update</b-button>

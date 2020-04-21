@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div id="how-it-works" class="how-it-works">
+        <div id="how-it-works" class="how-it-works" role="main">
             <div class="flex-container">
                 <div class="illustration">
                     <img src="../assets/music.svg" alt="musical note" />

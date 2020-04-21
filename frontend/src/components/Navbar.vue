@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar">
+    <div class="navbar" role="navigation">
         <div class="left">
             <router-link to="/">Moodify</router-link>
             
