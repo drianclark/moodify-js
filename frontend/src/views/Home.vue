@@ -4,7 +4,9 @@
             <div class="spacer"></div>
 
             <div class="title">
-                <h1>Moodify</h1>
+                <div class="title-image">
+                    <img src="../assets/moodify.svg" alt="Moodify title" />
+                </div>
                 <p>Mood through music</p>
             </div>
 
@@ -39,7 +41,7 @@
 
 <script>
 export default {
-    name: 'home'
+    name: 'home',
 };
 
 var isInViewport = function(elem) {
@@ -63,7 +65,7 @@ window.onload = function() {
             if (isInViewport(animation)) {
                 let images = animation.getElementsByTagName('img');
 
-                images.forEach(image => {
+                images.forEach((image) => {
                     image.style.animationPlayState = 'running';
                 });
             }
@@ -74,14 +76,14 @@ window.onload = function() {
 </script>
 
 <style lang="scss" scoped>
-@import "../style/_variables.scss";
+@import '../style/_variables.scss';
 
 .background {
     // background-image: url("../assets/blobs.png"), linear-gradient(to right, #56ab2f, #95cc3e),
-        // linear-gradient(to bottom, #8fca2f, #608e15);
+    // linear-gradient(to bottom, #8fca2f, #608e15);
     // background-blend-mode: lighten;
     // background-size: cover, auto, auto;
-    background-image: url("../assets/background.png");
+    background-image: url('../assets/background.png');
     background-size: cover;
     height: 200vh;
 }
@@ -103,6 +105,15 @@ window.onload = function() {
         flex-direction: column;
         justify-content: center;
 
+        > .title-image {
+            width: 100%;
+
+            > img {
+                width: 25vw;
+            }
+        }
+        
+
         > h1 {
             font-family: $secondaryFont;
             font-size: 5vw;
@@ -119,6 +130,7 @@ window.onload = function() {
     .title-interactive {
         flex-grow: 3;
         font-family: $secondaryFont;
+        font-size: 2vw;
 
         > p {
             margin-bottom: 0;
@@ -126,11 +138,11 @@ window.onload = function() {
 
         > a {
             background-size: 1vh;
-            width: 1.2em;
             filter: invert(1);
             transition: ease-out 0.5s;
 
             > img {
+                width: 2vw;
                 transition: ease-out 0.5s;
             }
 
@@ -220,7 +232,6 @@ window.onload = function() {
         margin-top: 15vh;
 
         > .title {
-            
             h1 {
                 font-size: 10vw;
             }
@@ -241,7 +252,7 @@ window.onload = function() {
 
         > .flex-container {
             > .illustration {
-                  display: none;
+                display: none;
             }
 
             > p {
@@ -249,8 +260,6 @@ window.onload = function() {
                 text-align: center;
             }
         }
-
     }
-
 }
 </style>

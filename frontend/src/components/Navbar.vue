@@ -1,7 +1,8 @@
 <template>
     <div class="navbar">
         <div class="left">
-            <p>Moodify</p>
+            <router-link to="/">Moodify</router-link>
+            
         </div>
 
         <div class="right">
@@ -36,11 +37,17 @@
         text-align: left;
         height: 100%;
 
-        > p {
+        a {
+            text-decoration: none;
+            color: white;
             margin: auto;
             font-family: $secondaryFont;
             font-weight: bold;
             font-size: 2vw;
+
+            &:hover {
+                text-decoration: none;
+            }
         }
     }
 
@@ -48,7 +55,7 @@
         margin: auto;
         width: 100%;
         text-align: right;
-        font-size: 1rem;
+        font-size: 1.4vw;
     }
 
     ul {
@@ -78,7 +85,7 @@
         padding: 11px 16px 0 16px;
 
         > .left {
-            > p {
+            > a {
                 font-size: 16px;
             }
         }

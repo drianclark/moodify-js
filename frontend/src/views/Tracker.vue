@@ -52,7 +52,7 @@ $secondaryFont: Montserrat, sans-serif;
     // background-blend-mode: lighten;
     background-image: url("../assets/background.png");
     background-size: cover;
-    height: 100vh;
+    height: 100%;
 }
 
 .content {
