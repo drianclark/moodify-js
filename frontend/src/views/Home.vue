@@ -5,7 +5,7 @@
 
             <div class="title">
                 <div class="title-image">
-                    <img src="../assets/moodify.svg" alt="Moodify title" />
+                    <img src="../assets/moodify.svg" alt="Moodify title logo" />
                 </div>
                 <p>Mood through music</p>
             </div>
@@ -14,7 +14,7 @@
                 <p>How does it work?</p>
                 <a href="#how-it-works">
                     <img
-                        src="../assets/arrow-down-circle.svg"
+                        src="../assets/down_arrow_circle.svg"
                         alt="arrow down button"
                     />
                 </a>
@@ -25,8 +25,8 @@
             <div class="flex-container">
                 <div class="illustration">
                     <img src="../assets/music.svg" alt="musical note" />
-                    <img src="../assets/arrow-right.svg" alt="right arrow" />
-                    <img src="../assets/bar-chart-2.svg" alt="graph icon" />
+                    <img src="../assets/right_arrow.svg" alt="right arrow" />
+                    <img src="../assets/data.svg" alt="graph icon" />
                 </div>
                 <p>
                     By tracking your Spotify listening history, Moodify can
@@ -40,12 +40,8 @@
 </template>
 
 <script>
-export default {
-    name: 'home',
-};
-
-var isInViewport = function(elem) {
-    var bounding = elem.getBoundingClientRect();
+const isInViewport = function(elem) {
+    let bounding = elem.getBoundingClientRect();
     return (
         bounding.top >= 0 &&
         bounding.left >= 0 &&
@@ -56,22 +52,27 @@ var isInViewport = function(elem) {
     );
 };
 
-window.onload = function() {
-    var animation = document.getElementsByClassName('illustration')[0];
+const scrollListener = function() {
+    let animation = document.getElementsByClassName('illustration')[0];
 
-    window.addEventListener(
-        'scroll',
-        function() {
-            if (isInViewport(animation)) {
-                let images = animation.getElementsByTagName('img');
+    if (isInViewport(animation)) {
+        let images = animation.getElementsByTagName('img');
+        console.log(images);
 
-                images.forEach((image) => {
-                    image.style.animationPlayState = 'running';
-                });
-            }
-        },
-        false
-    );
+        images.forEach((image) => {
+            image.style.animationPlayState = 'running';
+        });
+    }
+};
+
+export default {
+    name: 'home',
+    mounted: function() {
+        window.addEventListener('scroll', scrollListener, false);
+    },
+    destroyed: function() {
+        window.removeEventListener('scroll', scrollListener);
+    },
 };
 </script>
 
@@ -112,7 +113,6 @@ window.onload = function() {
                 width: 25vw;
             }
         }
-        
 
         > h1 {
             font-family: $secondaryFont;
@@ -130,7 +130,7 @@ window.onload = function() {
     .title-interactive {
         flex-grow: 3;
         font-family: $secondaryFont;
-        font-size: 2vw;
+        font-size: 1.4vw;
 
         > p {
             margin-bottom: 0;
@@ -218,6 +218,46 @@ window.onload = function() {
             font-size: 1.6vw;
         }
     }
+}
+
+@media only screen and (max-width: $breakpointTablet) {
+    .title-section {
+        > .title {
+            > .p {
+                font-size: 2vw;
+            }
+        }
+    }
+
+    .title-section > .title-interactive {
+        font-size: 2vw;
+    }
+
+    .how-it-works {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+
+    > .flex-container {
+        padding: 0 20vw;
+        text-align: left;
+
+        > .illustration {
+            img {
+                width: 10vw;
+            }
+
+            > img:nth-of-type(2) {
+                width: 6vw;
+            }
+        }
+
+        > p {
+            font-size: 2.4vw;
+        }
+    }
+}
 }
 
 @media only screen and (max-width: $breakpointPhone) {
