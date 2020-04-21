@@ -45,11 +45,12 @@
 @import "../style/_variables.scss";
 
 .background {
-    background-image: linear-gradient(to right, #56ab2f, #95cc3e),
-        linear-gradient(to bottom, #8fca2f, #608e15);
-    background-blend-mode: lighten;
+    // background-image: linear-gradient(to right, #56ab2f, #95cc3e),
+    //     linear-gradient(to bottom, #8fca2f, #608e15);
+    // background-blend-mode: lighten;
+    background-image: url("../assets/background.png");
+    background-size: cover;
     height: 100vh;
-    width: 100vw;
 }
 
 .content {

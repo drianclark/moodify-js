@@ -17,8 +17,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap");
-$primaryFont: Raleway, sans-serif;
-$secondaryFont: Montserrat, sans-serif;
+@import "../style/_variables.scss";
+
 
 .navbar {
     position: absolute;
@@ -27,6 +27,7 @@ $secondaryFont: Montserrat, sans-serif;
     display: grid;
     grid-template-columns: 1fr 2fr;
     justify-items: center;
+    align-items: bottom;
     font-family: $primaryFont;
 
     > .left {
@@ -47,6 +48,7 @@ $secondaryFont: Montserrat, sans-serif;
         margin: auto;
         width: 100%;
         text-align: right;
+        font-size: 1rem;
     }
 
     ul {
@@ -70,6 +72,27 @@ $secondaryFont: Montserrat, sans-serif;
         }
     }
 }
+
+@media only screen and (max-width: $breakpointTablet){
+    .navbar {
+        padding: 11px 16px 0 16px;
+
+        > .left {
+            > p {
+                font-size: 16px;
+            }
+        }
+
+        > .right {
+            font-size: 14px;
+
+            > ul > a {
+                margin-left: 22px;
+            }
+        }
+    }
+}
+
 </style>
 
 <script>

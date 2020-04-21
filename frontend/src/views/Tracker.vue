@@ -47,11 +47,12 @@ $primaryFont: Raleway, sans-serif;
 $secondaryFont: Montserrat, sans-serif;
 
 .background {
-    background-image: linear-gradient(to right, #56ab2f, #95cc3e),
-        linear-gradient(to bottom, #8fca2f, #608e15);
-    background-blend-mode: lighten;
-    height: 100%;
-    width: 100vw;
+    // background-image: linear-gradient(to right, #56ab2f, #95cc3e),
+    //     linear-gradient(to bottom, #8fca2f, #608e15);
+    // background-blend-mode: lighten;
+    background-image: url("../assets/background.png");
+    background-size: cover;
+    height: 100vh;
 }
 
 .content {
