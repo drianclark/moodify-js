@@ -23,10 +23,11 @@ switch (app.get('env')) {
         origin = 'https://localhost';
         break;
     case 'staging':
-        origin = 'https://35.230.138.23';
+        origin = 'https://moodify.jackbondpreston.me/tracker';
+        // origin = 'https://35.230.138.23';
         break;
     default:
-        origin = 'https://localhost:8080'
+        origin = 'https://localhost:8080';
 }
 
 const dbName =
