@@ -11,7 +11,9 @@ var moment = require('moment');
 moment().format();
 
 const app = express();
+
 app.use(helmet());
+app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 const port = process.env.PORT || 5000;
 const APP_URL = process.env.URL || 'https://localhost:5000';
