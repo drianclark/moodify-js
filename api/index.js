@@ -25,7 +25,7 @@ switch (app.get('env')) {
         origin = 'https://localhost';
         break;
     case 'staging':
-        origin = 'https://moodify.jackbondpreston.me/tracker';
+        origin = 'https://moodify.jackbondpreston.me';
         // origin = 'https://35.230.138.23';
         break;
     default:
