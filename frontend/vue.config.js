@@ -1,6 +1,8 @@
 module.exports = {
     devServer: {
       https: true,
+      key: fs.readFileSync('./certs/key.pem'),
+      cert: fs.readFileSync('./certs/cert.pem'),
       disableHostCheck: true,
       proxy: {
         '/.well-known': {

@@ -10,8 +10,8 @@ const port = process.env.PORT || 5000;
 // });
 
 https.createServer({
-    key: fs.readFileSync('./certs/server.key'),
-    cert: fs.readFileSync('./certs/server.cert')
+    key: fs.readFileSync('./certs/key.pem'),
+    cert: fs.readFileSync('./certs/cert.pem')
   }, app.main)
   .listen(port, function () {
     console.log('App listening on port ' + port);
