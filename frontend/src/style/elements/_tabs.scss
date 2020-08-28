@@ -1,0 +1,20 @@
+.nav-tabs {
+    border: none;
+
+    .nav-item .nav-link {
+        border: none;
+        box-shadow: inset 0 -1px 0px 0 var(--primary);
+        background-color: transparent;
+        color: white;
+
+        &.active {
+            border: none;
+            box-shadow: inset 0 -3px 0px 0 var(--primary);
+        }
+
+        &:hover {
+            border: none;
+            box-shadow: inset 0 -3px 0px 0 var(--primary);
+        }
+    }
+}

@@ -1,11 +1,12 @@
 <template>
     <div class="background">
-        <section class="content">
+        <section class="content" role="main">
             <h1>Getting Started</h1>
-            <p>
+            <h2>
                 Since Moodify utilises the Spotify API, some initial setup is
                 required to get it up and running.
-            </p>
+            </h2>
+            <br>
             <ol>
                 <li>
                     Create a Spotify developer account
@@ -42,22 +43,29 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../assets/style/_variables.scss";
+@import "../style/_variables.scss";
 
 .background {
-    background-image: linear-gradient(to right, #56ab2f, #95cc3e),
-        linear-gradient(to bottom, #8fca2f, #608e15);
-    background-blend-mode: lighten;
+    // background-image: linear-gradient(to right, #56ab2f, #95cc3e),
+    //     linear-gradient(to bottom, #8fca2f, #608e15);
+    // background-blend-mode: lighten;
+    background-image: url("../assets/background.png");
+    background-size: cover;
     height: 100vh;
-    width: 100vw;
 }
 
 .content {
     padding: 10vw 5vw 0 5vw;
     text-align: left;
+    font-size: 1.2vw;
 
     h1 {
       font-family: $secondaryFont;
+      font-weight: bold;
+    }
+
+    h2 {
+        font-size: 1.3vw;
     }
 
     ol {

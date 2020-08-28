@@ -1,7 +1,8 @@
 <template>
-    <div class="navbar">
+    <div class="navbar" role="navigation">
         <div class="left">
-            <p>Moodify</p>
+            <router-link to="/">Moodify</router-link>
+            
         </div>
 
         <div class="right">
@@ -16,8 +17,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap');
-@import "../assets/style/_variables.scss";
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700|Raleway&display=swap");
+@import "../style/_variables.scss";
+
 
 .navbar {
     position: absolute;
@@ -26,6 +28,7 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     justify-items: center;
+    align-items: bottom;
     font-family: $primaryFont;
 
     > .left {
@@ -34,11 +37,17 @@
         text-align: left;
         height: 100%;
 
-        > p {
+        a {
+            text-decoration: none;
+            color: white;
             margin: auto;
             font-family: $secondaryFont;
             font-weight: bold;
             font-size: 2vw;
+
+            &:hover {
+                text-decoration: none;
+            }
         }
     }
 
@@ -46,6 +55,7 @@
         margin: auto;
         width: 100%;
         text-align: right;
+        font-size: 1.4vw;
     }
 
     ul {
@@ -70,32 +80,30 @@
     }
 }
 
-
-@media only screen and (max-width: $breakpointTablet) {
+@media only screen and (max-width: $breakpointTablet){
     .navbar {
-        padding: 3vw 4vw 0 4vw;
-    }
+        padding: 11px 16px 0 16px;
 
-    .navbar ul > a, .navbar > .left > p {
-        font-size: 2.4vw;
-    }
+        > .left {
+            > a {
+                font-size: 16px;
+            }
+        }
 
-}
+        > .right {
+            font-size: 14px;
 
-@media only screen and (max-width: $breakpointPhone) {
-
-    .navbar ul > a, .navbar > .left > p {
-        font-size: 3.2vw;
-    }
-
-    .navbar ul > a {
-        margin-left: 4vw;
+            > ul > a {
+                margin-left: 22px;
+            }
+        }
     }
 }
+
 </style>
 
 <script>
 export default {
-    name: 'Navbar'
+    name: "Navbar"
 };
 </script>

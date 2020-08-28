@@ -6,7 +6,7 @@ services:
         command: npm run start
         environment:
             - NODE_ENV=staging
-            - URL=https://35.230.138.23
+            - URL=https://35.230.138.23:5000
             - PORT=5000
         volumes:
             - ./api/sqlite-db:/api/sqlite-db

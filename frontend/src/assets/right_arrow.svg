@@ -1,0 +1,19 @@
+<svg id="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 12px;
+      }
+    </style>
+  </defs>
+  <title>right arrow</title>
+  <g id="arrow-2" data-name="arrow">
+    <g>
+      <line class="cls-1" x1="73.07" y1="128" x2="169.91" y2="128"/>
+      <polygon points="130.15 177.08 121.97 168.29 165.31 128.01 121.97 87.72 130.15 78.93 182.93 128.01 130.15 177.08"/>
+    </g>
+  </g>
+</svg>

@@ -11,12 +11,27 @@ var moment = require('moment');
 moment().format();
 
 const app = express();
+
 app.use(helmet());
+app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 const port = process.env.PORT || 5000;
-const APP_URL = process.env.URL + ":" + port || `https://localhost:${port}`;
-const origin = 
-    app.get('env') === 'test' ? 'https://localhost' : 'https://35.230.138.23'
+const APP_URL = process.env.URL || 'https://localhost:5000';
+
+var origin;
+
+switch (app.get('env')) {
+    case 'test':
+        origin = 'https://localhost';
+        break;
+    case 'staging':
+        origin = 'https://moodify.jackbondpreston.me';
+        // origin = 'https://35.230.138.23';
+        break;
+    default:
+        origin = 'https://localhost:8080';
+}
+
 const dbName =
     app.get('env') === 'test' ? './sqlite-db/test.db' : './sqlite-db/tracks.db';
 console.log(dbName);
