@@ -6,8 +6,8 @@ There are three different services running on separate Docker containers (backen
 
 Spotify's API only provides the 50 most recently played tracks, so the track update service and database are used to store tracks beyond this limit. The tracks update service runs at regular intervals and calls the Spotify API to request the 50 recently played tracks. It then stores the tracks that have not been stored yet in the database. 
 
-The project has now been deployed to the Google Cloud Platform, but there are still bugs in the deployment that need to be fixed.
-
+The project has been deployed to a Google Cloud Platform Compute Engine.
+ 
 ---
 
 ## Possible improvements
