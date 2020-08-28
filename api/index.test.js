@@ -3,6 +3,7 @@ const supertest = require('supertest');
 const path = require('path');
 const sqlite3 = require('sqlite3');
 const moment = require('moment');
+const { dnsPrefetchControl } = require('helmet');
 
 const request = supertest(app.main);
 const dbName = './sqlite-db/test.db';
@@ -16,7 +17,7 @@ const db = new sqlite3.Database(dbPath, err => {
     }
 });
 
-beforeAll(() => {
+beforeEach(() => {
     return new Promise((resolve, reject) => {
         // Delete all tracks
         const truncateSQL = 'DELETE FROM tracks;';
@@ -26,51 +27,9 @@ beforeAll(() => {
                     console.error(err.message);
                     reject('Error truncating table');
                 }
+                else resolve('Successfully deleted tracks');
             });
-        });
-
-        // Insert two tracks
-        const placeholders = [0, 1]
-            .map(() => '(?, ?, ?, ?, ?, ?, ?, ?, ?)')
-            .join(', ');
-        const populateSQL =
-            'INSERT INTO tracks (spotifyid, title, play_date, valence, acousticness, danceability, energy, speechiness, tempo) VALUES ' +
-            placeholders;
-
-        const track1 = [
-            '4OT8GH9u9Gx7ydJ49ULunN',
-            'Slow Dancing in a Burning Room - Live at the Nokia Theatre, Los Angeles, CA - December 2007',
-            '2020-02-13 13:47:15.000',
-            0.451,
-            0.2,
-            0.514,
-            0.536,
-            0.0288,
-            133.848
-        ];
-
-        const track2 = [
-            '2k9N4caeCIJLOWwWwssrEM',
-            'Easily',
-            '2020-02-13 13:05:24.000',
-            0.357,
-            0.491,
-            0.772,
-            0.256,
-            0.0481,
-            118.902
-        ];
-
-        const tracks = [track1, track2].flat();
-
-        db.serialize(() => {
-            db.run(populateSQL, tracks, err => {
-                if (err) {
-                    console.error(err.message);
-                    reject('Error populating table');
-                } else resolve('successfully updated db');
-            });
-        });
+        });        
     });
 });
 
@@ -87,10 +46,59 @@ afterAll(() => {
 });
 
 test('get latest db date working', async () => {
-    const expectedLatestDBDate = moment('2020-02-13 13:47:15.000');
-    const latestDBDate = await app.get_latest_db_date();
 
+    // Insert two tracks
+    const placeholders = [0, 1]
+        .map(() => '(?, ?, ?, ?, ?, ?, ?, ?, ?)')
+        .join(', ');
+    const populateSQL =
+        'INSERT INTO tracks (spotifyid, title, play_date, valence, acousticness, danceability, energy, speechiness, tempo) VALUES ' +
+        placeholders;
+
+    const track1 = [
+        '4OT8GH9u9Gx7ydJ49ULunN',
+        'Slow Dancing in a Burning Room - Live at the Nokia Theatre, Los Angeles, CA - December 2007',
+        '2020-02-13 13:47:15.000',
+        0.451,
+        0.2,
+        0.514,
+        0.536,
+        0.0288,
+        133.848
+    ];
+
+    const track2 = [
+        '2k9N4caeCIJLOWwWwssrEM',
+        'Easily',
+        '2020-02-13 13:05:24.000',
+        0.357,
+        0.491,
+        0.772,
+        0.256,
+        0.0481,
+        118.902
+    ];
+
+    const tracks = [track1, track2].flat();
+
+    let latestDBDate = 
+    await new Promise((resolve, reject) => 
+        db.serialize(async () => {
+            db.run(populateSQL, tracks, err => {
+                if (err) {
+                    console.error(err.message);
+                    reject('Error populating table');
+                }
+                else {
+                    console.log('successfully updated db');
+                    resolve(app.get_latest_db_date());
+                }
+            });
+    }));
+
+    const expectedLatestDBDate = moment('2020-02-13 13:47:15.000');
     expect(expectedLatestDBDate).toEqual(latestDBDate);
+
 });
 
 test('tracks update working', async () => {
@@ -111,6 +119,7 @@ test('tracks update working', async () => {
             if (err) {
                 console.error(err.message);
             } else {
+                expect(rows.length).toEqual(recentTracks.length);
                 rows.forEach(row => {
                     let trackArray = Object.values(row).slice(1);
                     let valence = trackArray[2];
